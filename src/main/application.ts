@@ -27,7 +27,7 @@ export default class Application {
         .showOpenDialog(this.mainWindow, options)
         .then((result) => {
           event.reply('ipc-dialog-open', result.filePaths);
-          return undefined;
+          return result;
         })
         .catch((err) => console.log(err));
     });
