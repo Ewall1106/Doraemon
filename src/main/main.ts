@@ -26,8 +26,6 @@ import Application from './application';
 
 let mainWindow: BrowserWindow | null = null;
 
-Application.init();
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -77,6 +75,9 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+
+  const application = new Application(mainWindow);
+  console.log(application);
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
