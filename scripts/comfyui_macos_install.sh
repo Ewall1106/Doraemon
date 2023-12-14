@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo 开始下载ComfyUI... Install ComfyUI... 
-
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 if [[ "$(pwd)" =~ " " ]]; then echo 当前位置路径中有空格，请更换安装位置后再试 This script relies on Miniconda which can not be silently installed under a path with spaces. && exit; fi

@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className={styles.home}>
       <Button variant="filled" onClick={handleInstall}>
-        安装
+        一键启动
       </Button>
     </div>
   );
