@@ -35,16 +35,33 @@ export default class Application {
 
     // Shell
     ipcMain.on('ipc-execute-bash', (event, scriptPath) => {
+      let shellProcess;
+
       if (process.platform === 'darwin') {
-        spawn('osascript', [
+        shellProcess = spawn('osascript', [
           '-e',
           `tell application "Terminal" to do script "${scriptPath}" activate`,
         ]);
       } else if (process.platform === 'win32') {
-        spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath]);
+        // TODO: 获取文件夹位置后拼接script文件
+        const options = { cwd: scriptPath.replace('comfyui_windows_start.bat', '') }
+        shellProcess = spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath], options);
       } else {
-        spawn('x-terminal-emulator', ['-e', scriptPath]);
+        shellProcess = spawn('x-terminal-emulator', ['-e', scriptPath]);
       }
+
+      // TODO: 为什么在windows上没有打印？
+      shellProcess.stdout.on('data', (data) => {
+        console.log(data)
+      })
+
+      shellProcess.stderr.on('data', (data) => {
+        console.log(data)
+      })
+
+      shellProcess.on('close', (code) => {
+        console.log(code)
+      })
     });
   }
 }
