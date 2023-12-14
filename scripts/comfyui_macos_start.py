@@ -122,7 +122,7 @@ def launch_webui():
     comfyui_path = os.path.join("ComfyUI", 'main.py')
     
     if is_windows():
-        run_cmd('')
+        run_cmd(f"python {comfyui_path}", environment=True)
     elif is_macos():
         run_cmd(f"python {comfyui_path} --force-fp16", environment=True)
 
