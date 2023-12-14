@@ -43,6 +43,12 @@ if [ "$conda_exists" == "F" ]; then
     "$CONDA_ROOT_PREFIX/bin/conda" --version
 fi
 
+# install git if not already installed
+if ! command -v git &>/dev/null; then
+    echo "Git is not installed. Installing Git..."
+    "$CONDA_ROOT_PREFIX/bin/conda" install -y git
+fi
+
 # create the installer env
 if [ ! -e "$INSTALL_ENV_DIR" ]; then
     "$CONDA_ROOT_PREFIX/bin/conda" create -y -k --prefix "$INSTALL_ENV_DIR" python=3.11
