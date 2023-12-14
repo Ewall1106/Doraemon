@@ -1,4 +1,5 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron';
+import { spawn } from 'node:child_process';
 
 export default class Application {
   mainWindow: BrowserWindow;
@@ -21,7 +22,7 @@ export default class Application {
 
       const options: any = {
         title: '选择安装目录',
-        properties: ['openDirectory'],
+        properties: ['openFile'],
       };
       dialog
         .showOpenDialog(this.mainWindow, options)
@@ -30,6 +31,20 @@ export default class Application {
           return result;
         })
         .catch((err) => console.log(err));
+    });
+
+    // Shell
+    ipcMain.on('ipc-execute-bash', (event, scriptPath) => {
+      if (process.platform === 'darwin') {
+        spawn('osascript', [
+          '-e',
+          `tell application "Terminal" to do script "${scriptPath}" activate`,
+        ]);
+      } else if (process.platform === 'win32') {
+        spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath]);
+      } else {
+        spawn('x-terminal-emulator', ['-e', scriptPath]);
+      }
     });
   }
 }

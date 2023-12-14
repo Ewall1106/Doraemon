@@ -85,8 +85,6 @@
     "@mantine/hooks": "^7.3.1",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^2.43.0",
-    "@xterm/addon-web-links": "^0.10.0-beta.1",
-    "@xterm/xterm": "^5.4.0-beta.1",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^6.1.4",
