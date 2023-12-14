@@ -16,7 +16,6 @@ case "${OS_ARCH}" in
 esac
 
 # config
-GIT_CLONE_DIR="$(pwd)/ComfyUI"
 INSTALL_DIR="$(pwd)/installer_files"
 CONDA_ROOT_PREFIX="$(pwd)/installer_files/conda"
 INSTALL_ENV_DIR="$(pwd)/installer_files/env"
@@ -42,12 +41,6 @@ if [ "$conda_exists" == "F" ]; then
     "$CONDA_ROOT_PREFIX/bin/conda" --version
 fi
 
-# install git if not already installed
-if ! command -v git &>/dev/null; then
-    echo "Git is not installed. Installing Git..."
-    "$CONDA_ROOT_PREFIX/bin/conda" install -y git
-fi
-
 # create the installer env
 if [ ! -e "$INSTALL_ENV_DIR" ]; then
     "$CONDA_ROOT_PREFIX/bin/conda" create -y -k --prefix "$INSTALL_ENV_DIR" python=3.11
@@ -57,14 +50,6 @@ fi
 if [ ! -e "$INSTALL_ENV_DIR/bin/python" ]; then
     echo "Conda environment is empty."
     exit
-fi
-
-# Clone a comfyui repo
-GIT_REPO_URL="https://gitee.com/zhuzhukeji/ComfyUI.git"
-
-if [ ! -d "$GIT_CLONE_DIR" ]; then
-    echo "Cloning Git repository..."
-    git clone "$GIT_REPO_URL"
 fi
 
 # environment isolation
