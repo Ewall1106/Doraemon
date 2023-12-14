@@ -59,3 +59,11 @@ if [ ! -e "$INSTALL_ENV_DIR/bin/python" ]; then
     echo "Conda environment is empty."
     exit
 fi
+
+# Clone a comfyui repo
+GIT_REPO_URL="https://gitee.com/zhuzhukeji/ComfyUI.git"
+
+if [ ! -d "$GIT_CLONE_DIR" ]; then
+    echo "Cloning Git repository..."
+    git clone "$GIT_REPO_URL"
+fi
