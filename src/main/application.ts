@@ -1,5 +1,8 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron';
 import { spawn } from 'node:child_process';
+import Store from 'electron-store';
+
+const store = new Store();
 
 export default class Application {
   mainWindow: BrowserWindow;
@@ -35,33 +38,29 @@ export default class Application {
 
     // Shell
     ipcMain.on('ipc-execute-bash', (event, scriptPath) => {
-      let shellProcess;
-
       if (process.platform === 'darwin') {
-        shellProcess = spawn('osascript', [
+        spawn('osascript', [
           '-e',
           `tell application "Terminal" to do script "${scriptPath}" activate`,
         ]);
       } else if (process.platform === 'win32') {
         // TODO: 获取文件夹位置后拼接script文件
-        const options = { cwd: scriptPath.replace('comfyui_windows_start.bat', '') }
-        shellProcess = spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath], options);
+        const options = {
+          cwd: scriptPath.replace('comfyui_windows_start.bat', ''),
+        };
+        spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath], options);
       } else {
-        shellProcess = spawn('x-terminal-emulator', ['-e', scriptPath]);
+        spawn('x-terminal-emulator', ['-e', scriptPath]);
       }
+    });
 
-      // TODO: 为什么在windows上没有打印？
-      shellProcess.stdout.on('data', (data) => {
-        console.log(data)
-      })
+    // Store
+    ipcMain.on('electron-store-get', async (event, val) => {
+      event.returnValue = store.get(val);
+    });
 
-      shellProcess.stderr.on('data', (data) => {
-        console.log(data)
-      })
-
-      shellProcess.on('close', (code) => {
-        console.log(code)
-      })
+    ipcMain.on('electron-store-set', async (event, key, val) => {
+      store.set(key, val);
     });
   }
 }

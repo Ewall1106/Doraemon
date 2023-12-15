@@ -19,9 +19,14 @@ export default function Home() {
     });
   };
 
+  const handleRun = () => {
+    window.electron.store.set('foo', 'bar');
+    console.log('>>>>>>>>>>>>',  window.electron.store.get('foo'))
+  };
+
   return (
     <div className={styles.home}>
-      <Button variant="filled" onClick={handleInstall}>
+      <Button variant="filled" onClick={handleRun}>
         一键启动
       </Button>
     </div>
