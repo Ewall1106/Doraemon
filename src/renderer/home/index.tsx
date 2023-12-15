@@ -1,52 +1,55 @@
 import React, { useState } from 'react';
-import { Button, Modal, Flex, Space, Card, Anchor, Grid, Image, Group, Text, Input, Title } from '@mantine/core';
+import { Button, Flex, Space, Card, Anchor, Grid, Image, Group, Text, Input, Title } from '@mantine/core';
+import { message } from 'antd';
 import { IconFile } from '@tabler/icons-react';
-import { useDisclosure } from '@mantine/hooks';
 
 import 'xterm/css/xterm.css';
 import styles from './styles.module.scss';
 
 export default function Home() {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const [comfyFilePath, setComfyFilePath] = useState(() => window.electron.store.get('COMFYUI_INSTALL_DIR'));
+
+  const handleChangePath = () => {
+    window.electron.ipcRenderer.sendMessage('ipc-dialog-open');
+    window.electron.ipcRenderer.once('ipc-dialog-open', (filePaths) => {
+      const filePath = filePaths?.[0];
+      if (!filePath) return;
+      window.electron.store.set('COMFYUI_INSTALL_DIR', filePath);
+      setComfyFilePath(filePath);
+    });
+  };
 
   const handleShell = (filePath: string) => {
     window.electron.ipcRenderer.sendMessage('ipc-execute-bash', filePath);
   };
 
   const handleInstall = () => {
-    const COMFYUI_INSTALL_DIR = window.electron.store.get('COMFYUI_INSTALL_DIR');
-    window.electron.ipcRenderer.sendMessage('ipc-download', COMFYUI_INSTALL_DIR);
+    window.electron.ipcRenderer.sendMessage('ipc-download', comfyFilePath);
     window.electron.ipcRenderer.once('ipc-download', (status) => {
       if (status) {
-        close();
-        handleShell(COMFYUI_INSTALL_DIR);
+        handleShell(comfyFilePath);
       }
     });
   };
 
-  const handleModal = () => {
-    open();
-  };
-
   const handleRun = () => {
-    if (comfyFilePath) {
-      handleShell(comfyFilePath);
-    } else {
-      window.electron.ipcRenderer.sendMessage('ipc-dialog-open');
-      window.electron.ipcRenderer.once('ipc-dialog-open', (filePaths) => {
-        const filePath = filePaths?.[0];
-        if (!filePath) return;
-
-        window.electron.store.set('COMFYUI_INSTALL_DIR', filePath);
-        setComfyFilePath(filePath);
-        handleModal();
+    if (!comfyFilePath) {
+      messageApi.open({
+        type: 'warning',
+        content: '请先选择安装位置',
       });
+      return;
     }
+
+    // TODO:
+    handleInstall();
   };
 
   return (
     <div className={styles.home}>
+      {contextHolder}
+
       <Grid mt="sm">
         <Grid.Col span={6}>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -79,12 +82,10 @@ export default function Home() {
             <Space h="md" />
 
             <Flex align="center">
-              <Text size="sm">安装位置:</Text>
-              <Space w="sm" />
-              <Input style={{ width: '60%' }} size="xs" disabled placeholder="请选择安装地址" value={comfyFilePath} />
-
-              <Button size="xs" leftSection={<IconFile size={14} />} variant="default">
-                更换位置
+              <Text size="sm">安装位置：</Text>
+              <Input style={{ flexGrow: 1 }} size="xs" disabled placeholder="请选择安装地址" value={comfyFilePath} />
+              <Button size="xs" leftSection={<IconFile size={14} />} variant="default" onClick={handleChangePath}>
+                {comfyFilePath ? '更换位置' : '选择'}
               </Button>
             </Flex>
 
@@ -94,13 +95,6 @@ export default function Home() {
           </Card>
         </Grid.Col>
       </Grid>
-
-      <Modal opened={opened} onClose={close} title="确认安装到该目录">
-        <div>{window.electron.store.get('COMFYUI_INSTALL_DIR')}</div>
-        <Button variant="filled" onClick={handleInstall}>
-          确认
-        </Button>
-      </Modal>
     </div>
   );
 }
