@@ -5,11 +5,18 @@ import axios from 'axios';
 export const downloadInit = () => {
   ipcMain.on('ipc-download', async (event, dirPath) => {
     const pendingList = [];
-    const downloadFiles = ['comfyui_macos_start.sh', 'comfyui_macos_start.py'];
+    const downloadFiles = ['comfyui_start.py'];
+
+    if (process.platform === 'darwin') {
+      downloadFiles.push('comfyui_macos_start.sh');
+    } else {
+      downloadFiles.push('comfyui_windows_start.bat');
+    }
 
     downloadFiles.forEach((file) => {
       pendingList.push(
         new Promise((resolve, reject) => {
+          // TODO: 替换为正式开源后的gitee地址
           axios({
             method: 'get',
             url: `https://gitee.com/zhuzhukeji/annotators/raw/master/${file}`,
@@ -30,8 +37,6 @@ export const downloadInit = () => {
                 console.error(`Error writing to file: ${err.message}`);
                 reject();
               });
-
-              return response;
             })
             .catch((err) => {
               console.error(`Error downloading file: ${err.message}`);

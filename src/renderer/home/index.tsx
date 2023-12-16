@@ -26,6 +26,9 @@ export default function Home() {
 
   const handleShell = (filePath: string) => {
     ipcRenderer.sendMessage('ipc-shell-execute', filePath);
+    ipcRenderer.once('ipc-shell-execute', ({ done }) => {
+      console.log(done);
+    });
   };
 
   const handleDownload = () => {
@@ -33,6 +36,11 @@ export default function Home() {
     ipcRenderer.once('ipc-download', (status) => {
       if (status) {
         handleShell(installPath);
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: '启动文件下载失败，请检测网络',
+        });
       }
     });
   };
