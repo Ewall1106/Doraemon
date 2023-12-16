@@ -8,7 +8,7 @@ export const shellInit = () => {
     event.reply('ipc-example', msgTemplate('pong'));
   });
 
-  ipcMain.on('ipc-execute-bash', (event, scriptPath) => {
+  ipcMain.on('ipc-shell-execute', (event, scriptPath) => {
     if (process.platform === 'darwin') {
       const path = `${scriptPath}/comfyui_macos_start.sh`;
       const childProcess = spawn('osascript', ['-e', `tell application "Terminal" to do script "${path}" activate`]);
