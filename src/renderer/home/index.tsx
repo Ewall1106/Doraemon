@@ -10,7 +10,7 @@ export default function Home() {
   const [messageApi, contextHolder] = message.useMessage();
   const [comfyFilePath, setComfyFilePath] = useState(() => window.electron.store.get('COMFYUI_INSTALL_DIR'));
 
-  const handleChangePath = () => {
+  const handleSelectPath = () => {
     window.electron.ipcRenderer.sendMessage('ipc-dialog-open');
     window.electron.ipcRenderer.once('ipc-dialog-open', (filePaths) => {
       const filePath = filePaths?.[0];
@@ -24,7 +24,7 @@ export default function Home() {
     window.electron.ipcRenderer.sendMessage('ipc-execute-bash', filePath);
   };
 
-  const handleInstall = () => {
+  const handleDownload = () => {
     window.electron.ipcRenderer.sendMessage('ipc-download', comfyFilePath);
     window.electron.ipcRenderer.once('ipc-download', (status) => {
       if (status) {
@@ -41,9 +41,7 @@ export default function Home() {
       });
       return;
     }
-
-    // TODO:
-    handleInstall();
+    handleDownload();
   };
 
   return (
@@ -84,7 +82,7 @@ export default function Home() {
             <Flex align="center">
               <Text size="sm">安装位置：</Text>
               <Input style={{ flexGrow: 1 }} size="xs" disabled placeholder="请选择安装地址" value={comfyFilePath} />
-              <Button size="xs" leftSection={<IconFile size={14} />} variant="default" onClick={handleChangePath}>
+              <Button size="xs" leftSection={<IconFile size={14} />} variant="default" onClick={handleSelectPath}>
                 {comfyFilePath ? '更换位置' : '选择'}
               </Button>
             </Flex>

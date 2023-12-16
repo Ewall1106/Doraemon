@@ -42,7 +42,20 @@ export default class Application {
     ipcMain.on('ipc-execute-bash', (event, scriptPath) => {
       if (process.platform === 'darwin') {
         const path = `${scriptPath}/comfyui_macos_start.sh`;
-        spawn('osascript', ['-e', `tell application "Terminal" to do script "${path}" activate`]);
+        const childProcess = spawn('osascript', ['-e', `tell application "Terminal" to do script "${path}" activate`]);
+        // 监听子进程的stdout和stderr输出
+        childProcess.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`);
+        });
+
+        childProcess.stderr.on('data', (data) => {
+          console.error(`stderr: ${data}`);
+        });
+
+        // 监听子进程的关闭事件
+        childProcess.on('close', (code) => {
+          console.log(`子进程退出，退出码 ${code}`);
+        });
       } else if (process.platform === 'win32') {
         const options = { cwd: scriptPath.replace('comfyui_windows_start.bat', '') };
         spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath], options);
@@ -51,7 +64,7 @@ export default class Application {
       }
     });
 
-    // install
+    // Download
     ipcMain.on('ipc-download', async (event, dirPath) => {
       const pendingList = [];
       const downloadFiles = ['comfyui_macos_start.sh', 'comfyui_macos_start.py'];
