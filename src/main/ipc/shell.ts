@@ -13,12 +13,13 @@ export const shellInit = () => {
     let childProcess;
 
     if (process.platform === 'darwin') {
-      const path = `${scriptPath}/comfyui_macos_start.sh`;
-      chmodSync(path, '755');
-      childProcess = spawn('osascript', ['-e', `tell application "Terminal" to do script "${path}" activate`]);
+      const fullPath = `${scriptPath}/comfyui_macos_start.sh`;
+      chmodSync(fullPath, '755');
+      childProcess = spawn('osascript', ['-e', `tell application "Terminal" to do script "${fullPath}" activate`]);
     } else if (process.platform === 'win32') {
-      const options = { cwd: scriptPath.replace('comfyui_windows_start.bat', '') };
-      childProcess = spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath], options);
+      const fullPath = `${scriptPath}/comfyui_windows_start.bat`;
+      const options = { cwd: scriptPath };
+      childProcess = spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', fullPath], options);
     } else {
       childProcess = spawn('x-terminal-emulator', ['-e', scriptPath]);
     }
