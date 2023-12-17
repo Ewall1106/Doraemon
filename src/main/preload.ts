@@ -3,22 +3,32 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels =
-  | 'ipc-example'
-  | 'ipc-dialog-open'
+  | 'download.bigFile'
+  | 'dialog.openDirectory'
   | 'ipc-shell-execute'
   | 'ipc-download'
-  | 'ipc-fs-ensure-dir'
-  | 'ipc-fs-path-exists';
+  | 'fs.ensureDir'
+  | 'fs.pathExists'
+  | 'pathExists';
 
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
       ipcRenderer.send(channel, ...args);
     },
+    invoke(channel: Channels, ...args: unknown[]) {
+      return new Promise((resolve, reject) => {
+        ipcRenderer
+          .invoke(channel, ...args)
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => reject(err));
+      });
+    },
     on(channel: Channels, func: (...args: unknown[]) => void) {
       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) => func(...args);
       ipcRenderer.on(channel, subscription);
-
       return () => {
         ipcRenderer.removeListener(channel, subscription);
       };

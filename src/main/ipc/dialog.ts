@@ -1,17 +1,16 @@
 import { ipcMain, dialog } from 'electron';
 
 export const dialogInit = ({ mainWindow }) => {
-  ipcMain.on('ipc-dialog-open', async (event, arg) => {
+  ipcMain.on('dialog.openDirectory', async (event, arg) => {
     console.log(arg);
 
     dialog
       .showOpenDialog(mainWindow, {
-        title: '选择安装目录',
+        title: '请选择目录',
         properties: ['openDirectory'],
       })
       .then((result) => {
-        console.log('ipc-dialog-open', result);
-        event.reply('ipc-dialog-open', result);
+        event.reply('dialog.openDirectory', result);
         return result;
       })
       .catch((err) => console.log(err));

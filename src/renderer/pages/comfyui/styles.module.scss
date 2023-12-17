@@ -1,4 +1,14 @@
 .home {
-  padding: 20px;
   box-sizing: border-box;
+  .header {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    border-bottom: 1px solid #e9ecef;
+    border-bottom-width: 1px;
+    padding: 0 20px;
+    background: #fff;
+  }
 }

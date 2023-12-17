@@ -10,14 +10,19 @@
     "module": "commonjs",
     "lib": ["dom", "es2022"],
     "jsx": "react-jsx",
-    "strict": false,
     "sourceMap": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "outDir": ".erb/dll"
+    "outDir": ".erb/dll",
+
+    /* Linting */
+    "strict": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }
