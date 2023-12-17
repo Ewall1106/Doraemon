@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { MantineProvider, createTheme } from '@mantine/core';
-import App from './app/index';
+import App from './pages/app';
 
 import './index.css';
 import '@mantine/core/styles.css';
@@ -16,11 +16,3 @@ root.render(
     <App />
   </MantineProvider>,
 );
-
-// calling IPC exposed from preload script
-window.electron.ipcRenderer.once('ipc-example', (arg) => {
-  // eslint-disable-next-line no-console
-  console.log(arg);
-});
-
-window.electron.ipcRenderer.sendMessage('ipc-example', ['ping']);

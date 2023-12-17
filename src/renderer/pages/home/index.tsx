@@ -3,6 +3,7 @@ import { OpenDialogReturnValue } from 'electron';
 import { Button, Flex, Space, Card, Anchor, Grid, Image, Group, Text, Input, Title } from '@mantine/core';
 import { message } from 'antd';
 import { IconFile } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
 import { useComfyStore } from '@/store';
 
 import styles from './styles.module.scss';
@@ -10,6 +11,7 @@ import styles from './styles.module.scss';
 const { ipcRenderer } = window.electron;
 
 export default function Home() {
+  const navigate = useNavigate();
   const installPath = useComfyStore((state) => state.installPath);
   const setInstallPath = useComfyStore((state) => state.setInstallPath);
 
@@ -102,8 +104,8 @@ export default function Home() {
               </Button>
             </Flex>
 
-            <Button color="blue" fullWidth mt="md" radius="md" onClick={handleRun}>
-              一键启动
+            <Button color="blue" fullWidth mt="md" radius="md" onClick={() => navigate('/comfyui')}>
+              进入魔法世界
             </Button>
           </Card>
         </Grid.Col>
