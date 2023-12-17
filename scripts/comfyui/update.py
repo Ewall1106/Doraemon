@@ -61,5 +61,6 @@ repo.checkout(ref)
 print("pulling latest changes")
 pull(repo)
 
+print("更新成功!")
 print("Done!")
 
