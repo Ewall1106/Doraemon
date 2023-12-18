@@ -1,6 +1,7 @@
 import { ipcMain } from 'electron';
 import fs from 'node:fs';
 import axios from 'axios';
+import { throttle } from 'lodash';
 
 export const downloadInit = () => {
   // ipcMain.on('ipc-download', async (event, dirPath) => {
@@ -72,6 +73,10 @@ export const downloadInit = () => {
   //     });
   // });
   ipcMain.on('download.bigFile', async (event, dirPath) => {
+    const throttledReply = throttle((args) => {
+      event.reply('download.bigFile', args);
+    }, 500);
+
     axios({
       method: 'get',
       url: `https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=hsxl_temporal_layers.f16.safetensors`, // TODO: 替换为正式开源后的gitee地址
@@ -93,7 +98,7 @@ export const downloadInit = () => {
           const elapsedTime = (currentTime - startTime) / 1000; // in seconds
           const speed = downloadedLength / elapsedTime / 1024; // in KB/s
           console.log(`Download Progress: ${progress.toFixed(0)}%, Speed: ${speed.toFixed(0)} KB/s`);
-          event.reply('download.bigFile', {
+          throttledReply({
             status: 'downloading',
             speed: speed.toFixed(0),
             progress: progress.toFixed(0),
@@ -102,7 +107,6 @@ export const downloadInit = () => {
 
         writer.on('finish', () => {
           console.log('File downloaded successfully.');
-          event.reply('download.bigFile', { status: 'finish' });
         });
 
         writer.on('error', (err) => {
