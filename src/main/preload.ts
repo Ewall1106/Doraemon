@@ -4,12 +4,12 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels =
   | 'download.bigFile'
-  | 'dialog.openDirectory'
-  | 'ipc-shell-execute'
-  | 'ipc-download'
+  | 'download.fileList'
   | 'fs.ensureDir'
   | 'fs.pathExists'
-  | 'pathExists';
+  | 'shell.execute'
+  | 'process.platform'
+  | 'dialog.openDirectory';
 
 const electronHandler = {
   ipcRenderer: {

@@ -9,8 +9,8 @@ export default function App() {
     <div className={styles.app}>
       <Router>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/" element={<ComfyUI />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/comfyui" element={<ComfyUI />} />
         </Routes>
       </Router>
     </div>

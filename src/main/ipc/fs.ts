@@ -3,8 +3,8 @@ import { ensureDir, pathExists } from 'fs-extra';
 
 export const fsInit = () => {
   ipcMain.handle('fs.ensureDir', async (event, args) => {
-    const { dir } = args;
-    const result = await ensureDir(dir);
+    const { path } = args;
+    const result = await ensureDir(path);
     return result;
   });
 

@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { shellInit, downloadInit, storeInit, dialogInit, fsInit } from './ipc';
+import { shellInit, downloadInit, storeInit, dialogInit, fsInit, processInit } from './ipc';
 
 export default class Application {
   mainWindow: BrowserWindow;
@@ -14,6 +14,7 @@ export default class Application {
     storeInit();
     shellInit();
     downloadInit();
+    processInit();
     dialogInit({ mainWindow: this.mainWindow });
   }
 }
