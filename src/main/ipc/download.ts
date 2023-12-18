@@ -6,7 +6,7 @@ import { throttle } from 'lodash';
 export const downloadInit = () => {
   // ipcMain.on('ipc-download', async (event, dirPath) => {
   //   const pendingList = [];
-  //   const downloadFiles = ['comfyui_start.py'];
+  //   const downloadFiles = ['run.py'];
 
   //   if (process.platform === 'darwin') {
   //     downloadFiles.push('comfyui_macos_start.sh');

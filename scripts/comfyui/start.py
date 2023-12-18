@@ -107,15 +107,26 @@ def install_webui():
 
     if not os.path.exists("ComfyUI/"):
         run_cmd("git clone https://gitee.com/zhuzhukeji/ComfyUI.git", environment=True)
-    else:
-        print('TODO: git pull')
-        # os.chdir("ComfyUI")
-        # run_cmd("git pull", environment=True)
-        # os.chdir("..")
         
     # Install the requirements
     comfyui_req_path = os.path.join("ComfyUI", "requirements.txt")
     run_cmd("python -m pip install -r " + comfyui_req_path, environment=True)
+
+
+def update_requirements():
+    if os.path.exists("ComfyUI/"):
+        os.chdir("ComfyUI")
+        run_cmd("git pull", environment=True)
+        
+        set_pip_mirror = "python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple"
+        run_cmd(f"{set_pip_mirror} && python -m pip install -r requirements.txt --upgrade", assert_success=True, environment=True)
+        
+        os.chdir("..")
+    else:
+        print("ComfyUI文件夹不存在，请先执行启动按钮进行下载")
+        sys.exit(1)
+        
+    clear_cache()
 
 
 def launch_webui():
@@ -136,9 +147,7 @@ if __name__ == "__main__":
     args, _ = parser.parse_known_args()
 
     if args.update:
-        # update_requirements()
-        # TODO:
-        print('update')
+        update_requirements()
     else:
         # If webui has already been installed, skip and run
         if not is_installed():
