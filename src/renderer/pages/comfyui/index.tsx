@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { OpenDialogReturnValue } from 'electron';
 import {
+  Box,
   Button,
   Flex,
   Space,
@@ -136,9 +137,11 @@ export default function ComfyUI() {
           </Stepper.Step>
           <Stepper.Step label="ComfyUI下载" description="">
             <Flex align="center" style={{ padding: 18 }}>
-              <Text size="sm">{`下载进度:${progress}% 速度:${speed} KB/s`}</Text>
-              <Space w="md" />
-              <Progress style={{ flexGrow: 1 }} value={0} />
+              <Flex direction="column" align="flex-end" style={{ flexGrow: 1 }}>
+                <Progress style={{ width: '100%' }} value={progress} />
+                <Space h="2px" />
+                <Text size="xs">{`下载进度:${progress}% 速度:${speed}KB/s`}</Text>
+              </Flex>
               <Space w="md" />
               <Button size="xs" leftSection={<IconDownload size={14} />} variant="default" onClick={handleDownload}>
                 点击开始下载

@@ -92,27 +92,27 @@ export const downloadInit = () => {
           const currentTime = Date.now();
           const elapsedTime = (currentTime - startTime) / 1000; // in seconds
           const speed = downloadedLength / elapsedTime / 1024; // in KB/s
-          console.log(`Download Progress: ${progress.toFixed(2)}%, Speed: ${speed.toFixed(2)} KB/s`);
-          event.reply('dialog.openDirectory', {
+          console.log(`Download Progress: ${progress.toFixed(0)}%, Speed: ${speed.toFixed(0)} KB/s`);
+          event.reply('download.bigFile', {
             status: 'downloading',
-            speed: speed.toFixed(2),
-            progress: progress.toFixed(2),
+            speed: speed.toFixed(0),
+            progress: progress.toFixed(0),
           });
         });
 
         writer.on('finish', () => {
           console.log('File downloaded successfully.');
-          event.reply('dialog.openDirectory', { status: 'finish' });
+          event.reply('download.bigFile', { status: 'finish' });
         });
 
         writer.on('error', (err) => {
           console.error(`Error writing to file: ${err.message}`);
-          event.reply('dialog.openDirectory', { status: 'error' });
+          event.reply('download.bigFile', { status: 'error' });
         });
       })
       .catch((err) => {
         console.error(`Error downloading file: ${err.message}`);
-        event.reply('dialog.openDirectory', { status: 'error' });
+        event.reply('download.bigFile', { status: 'error' });
       });
   });
 };
