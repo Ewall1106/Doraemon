@@ -12,7 +12,7 @@ export const shellInit = () => {
       childProcess = spawn('osascript', ['-e', `tell application "Terminal" to do script "${scriptPath}" activate`]);
     } else if (process.platform === 'win32') {
       const options = { cwd: dirname(scriptPath) };
-      childProcess = spawn('powershell.exe', ['/c', 'start', 'powershell.exe', '/k', scriptPath], options);
+      childProcess = spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', scriptPath], options);
     }
 
     childProcess.stdout.on('data', (data) => {
