@@ -4,3 +4,4 @@ export * from './store';
 export * from './dialog';
 export * from './fs';
 export * from './process';
+export * from './git';

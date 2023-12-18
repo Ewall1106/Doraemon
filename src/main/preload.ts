@@ -9,7 +9,8 @@ export type Channels =
   | 'fs.pathExists'
   | 'shell.execute'
   | 'process.platform'
-  | 'dialog.openDirectory';
+  | 'dialog.openDirectory'
+  | 'git.clone';
 
 const electronHandler = {
   ipcRenderer: {

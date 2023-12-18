@@ -1,9 +1,10 @@
 import { OpenDialogReturnValue } from 'electron';
-import { Button, Flex, Space, Card, Text, Input } from '@mantine/core';
+import { Button, Flex, Space, Card, Text, Input, Anchor, Title } from '@mantine/core';
 import { IconFile, IconArrowLeft } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 import { useComfyStore } from '@/store';
+
 import styles from './styles.module.scss';
 
 const { ipcRenderer } = window.electron;
@@ -78,6 +79,32 @@ export default function ComfyUI() {
     }
   };
 
+  const handlePluginClone = async (item) => {
+    try {
+      const repoURL = `${item.gitee}.git`;
+      const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/ComfyUI-Manager`;
+      await ipcRenderer.invoke('fs.ensureDir', { path: targetDirectory });
+      await ipcRenderer.invoke('git.clone', { repoURL, targetDirectory });
+      messageApi.open({
+        type: 'success',
+        content: '下载成功',
+      });
+    } catch (error) {
+      messageApi.open({
+        type: 'error',
+        content: '下载失败',
+      });
+    }
+  };
+
+  const pluginList = [
+    {
+      name: 'ComfyUI-Manager',
+      github: 'https://github.com/ltdrdata/ComfyUI-Manager',
+      gitee: 'https://gitee.com/zhuzhukeji/ComfyUI-Manager',
+    },
+  ];
+
   return (
     <div className={styles.home}>
       {contextHolder}
@@ -92,7 +119,7 @@ export default function ComfyUI() {
         </Button>
       </div>
 
-      <Card shadow="none" m="md" padding="lg" radius="md" withBorder>
+      <Card shadow="none" m="md" padding="lg" radius="md">
         <Flex align="center">
           <Text size="sm">安装位置：</Text>
           <Input style={{ flexGrow: 1 }} size="xs" disabled placeholder="请选择安装地址" value={installPath} />
@@ -100,6 +127,42 @@ export default function ComfyUI() {
           <Button size="xs" leftSection={<IconFile size={14} />} variant="default" onClick={handleSelectPath}>
             {installPath ? '更换位置' : '选择安装位置'}
           </Button>
+        </Flex>
+      </Card>
+
+      <Card shadow="none" m="md" padding="lg" radius="md">
+        <Text size="sm">插件列表：</Text>
+
+        <Flex align="center">
+          {pluginList.map((item) => {
+            return (
+              <Card shadow="none" m="md" padding="lg" radius="md" withBorder key={item.name}>
+                <Title order={5}>{item.name}</Title>
+                <Space h="md" />
+                <Flex>
+                  <Anchor size="sm" href={item.github} target="_blank">
+                    Github
+                  </Anchor>
+                  <Text size="sm" c="dimmed" px="2px">
+                    |
+                  </Text>
+                  <Anchor size="sm" href={item.gitee} target="_blank">
+                    国内镜像
+                  </Anchor>
+                </Flex>
+                <Space h="md" />
+                <Flex>
+                  <Button variant="default" size="xs" radius="md" onClick={() => handlePluginClone(item)}>
+                    安装
+                  </Button>
+                  <Space w="xs" />
+                  <Button variant="default" size="xs" radius="md" onClick={() => navigate('/comfyui')}>
+                    更新
+                  </Button>
+                </Flex>
+              </Card>
+            );
+          })}
         </Flex>
       </Card>
     </div>
