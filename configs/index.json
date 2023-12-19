@@ -3,27 +3,27 @@
     "scriptList": [
       {
         "name": "start.py",
-        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/start.py"
+        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/scripts/comfyui/start.py"
       },
       {
         "name": "comfyui_macos_start.sh",
-        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_start.sh"
+        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/scripts/comfyui/comfyui_macos_start.sh"
       },
       {
         "name": "comfyui_macos_update.sh",
-        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_update.sh"
+        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/scripts/comfyui/comfyui_macos_update.sh"
       },
       {
         "name": "comfyui_windows_start.bat",
-        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start.bat"
+        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/scripts/comfyui/comfyui_windows_start.bat"
       },
       {
         "name": "comfyui_windows_start_cpu.bat",
-        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start_cpu.bat"
+        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/scripts/comfyui/comfyui_windows_start_cpu.bat"
       },
       {
         "name": "comfyui_windows_update.bat",
-        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_update.bat"
+        "url": "https://gitee.com/zhuzhukeji/annotators/raw/master/scripts/comfyui/comfyui_windows_update.bat"
       }
     ],
     "pluginList": [
