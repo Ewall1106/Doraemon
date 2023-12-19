@@ -1,0 +1,29 @@
+// 每日凌晨自动同步流水线
+pipeline {
+  agent any
+  stages {
+    stage('检出') {
+      steps {
+        checkout([
+          $class: 'GitSCM',
+          branches: [[name: GIT_BUILD_REF]],
+          userRemoteConfigs: [[
+            url: GIT_REPO_URL,
+            credentialsId: CREDENTIALS_ID
+          ]]])
+        }
+      }
+      stage('拉取') {
+        steps {
+          sh "git remote add github https://github.com/FizzleDorf/ComfyUI_FizzNodes.git" 
+          sh "git remote update github"
+          sh "git merge github/main"
+        }
+      }
+      stage('推送') {
+        steps {
+          sh "git push https://${PROJECT_TOKEN_GK}:${PROJECT_TOKEN}@e.coding.net/g-xeps0419/doraemon/ComfyUI_FizzNodes.git HEAD:main"
+        }
+      }
+    }
+  }

@@ -30,22 +30,56 @@
       {
         "name": "ComfyUI-Manager",
         "github": "https://github.com/ltdrdata/ComfyUI-Manager.git",
-        "gitee": "https://gitee.com/zhuzhukeji/ComfyUI-Manager.git"
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI-Manager.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-Manager/git/files"
       },
       {
         "name": "ComfyUI-AnimateDiff-Evolved",
         "github": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git",
-        "gitee": "https://gitee.com/zhuzhukeji/ComfyUI-AnimateDiff-Evolved.git"
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI-AnimateDiff-Evolved.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-AnimateDiff-Evolved/git/files"
+      },
+      {
+        "name": "ComfyUI_IPAdapter_plus",
+        "github": "https://github.com/cubiq/ComfyUI_IPAdapter_plus.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI_IPAdapter_plus.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI_IPAdapter_plus/git/files"
       },
       {
         "name": "comfyui_controlnet_aux",
-        "github": "https://github.com/ltdrdata/ComfyUI-Manager.git",
-        "gitee": "https://gitee.com/zhuzhukeji/ComfyUI-Manager.git"
+        "github": "https://github.com/Fannovel16/comfyui_controlnet_aux.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/comfyui_controlnet_aux.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/comfyui_controlnet_aux/git/files"
       },
       {
         "name": "ComfyUI-Advanced-ControlNet",
-        "github": "https://github.com/ltdrdata/ComfyUI-Manager.git",
-        "gitee": "https://gitee.com/zhuzhukeji/ComfyUI-Manager.git"
+        "github": "https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI-Advanced-ControlNet.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-Advanced-ControlNet/git/files"
+      },
+      {
+        "name": "ComfyUI-Frame-Interpolation",
+        "github": "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI-Frame-Interpolation.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-Frame-Interpolation/git/files"
+      },
+      {
+        "name": "comfyui-mixlab-nodes",
+        "github": "https://github.com/shadowcz007/comfyui-mixlab-nodes.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/comfyui-mixlab-nodes.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/comfyui-mixlab-nodes/git/files"
+      },
+      {
+        "name": "ComfyUI_tinyterraNodes",
+        "github": "https://github.com/TinyTerra/ComfyUI_tinyterraNodes.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI_tinyterraNodes.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI_tinyterraNodes/git/files"
+      },
+      {
+        "name": "ComfyUI_FizzNodes.git",
+        "github": "https://github.com/FizzleDorf/ComfyUI_FizzNodes.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI_FizzNodes.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI_FizzNodes/git/files"
       }
     ]
   }
