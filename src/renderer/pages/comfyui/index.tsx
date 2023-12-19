@@ -12,38 +12,12 @@ import styles from './styles.module.scss';
 
 const { ipcRenderer } = window.electron;
 
-const fileList = [
-  {
-    name: 'start.py',
-    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/start.py',
-  },
-  {
-    name: 'comfyui_macos_start.sh',
-    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_start.sh',
-  },
-  {
-    name: 'comfyui_macos_update.sh',
-    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_update.sh',
-  },
-  {
-    name: 'comfyui_windows_start.bat',
-    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start.bat',
-  },
-  {
-    name: 'comfyui_windows_start_cpu.bat',
-    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start_cpu.bat',
-  },
-  {
-    name: 'comfyui_windows_update.bat',
-    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_update.bat',
-  },
-];
-
 export default function ComfyUI() {
   const navigate = useNavigate();
   const [graphic, setGraphic] = useState('GPU');
   const [pathInputError, setPathInputError] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const info = useComfyStore((state) => state.info);
   const installPath = useComfyStore((state) => state.installPath);
   const setInstallPath = useComfyStore((state) => state.setInstallPath);
   const [messageApi, contextHolder] = message.useMessage();
@@ -75,7 +49,7 @@ export default function ComfyUI() {
       return;
     }
 
-    await ipcRenderer.invoke('download.fileList', path, fileList);
+    await ipcRenderer.invoke('download.fileList', path, info.scriptList);
 
     const platform = await ipcRenderer.invoke('process.platform');
     if (platform === 'darwin') {
@@ -97,7 +71,7 @@ export default function ComfyUI() {
 
     const pyPath = `${path}/ComfyUI/main.py`;
     const pyPathExist = await ipcRenderer.invoke('fs.pathExists', { path: pyPath });
-    if (!pyPathExist) await ipcRenderer.invoke('download.fileList', path, fileList);
+    if (!pyPathExist) await ipcRenderer.invoke('download.fileList', path, info.scriptList);
 
     const platform = await ipcRenderer.invoke('process.platform');
     if (platform === 'darwin') {
