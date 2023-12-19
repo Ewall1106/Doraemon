@@ -30,7 +30,7 @@ call "%CONDA_ROOT_PREFIX%\condabin\conda.bat" activate "%INSTALL_ENV_DIR%" || ( 
 @rem update installer env
 call python start.py --update && (
     echo.
-    echo Done!
+    echo Done! 更新完成！
 )
 
 :end

@@ -23,4 +23,4 @@ source "$CONDA_ROOT_PREFIX/etc/profile.d/conda.sh" # otherwise conda complains a
 conda activate "$INSTALL_ENV_DIR"
 
 # update installer env
-python start.py --update && echo -e "\nDone!"
+python start.py --update && echo -e "\nDone! 更新完成！"

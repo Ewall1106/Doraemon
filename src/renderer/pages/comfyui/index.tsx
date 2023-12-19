@@ -11,6 +11,33 @@ import styles from './styles.module.scss';
 
 const { ipcRenderer } = window.electron;
 
+const fileList = [
+  {
+    name: 'start.py',
+    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/start.py',
+  },
+  {
+    name: 'comfyui_macos_start.sh',
+    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_start.sh',
+  },
+  {
+    name: 'comfyui_macos_update.sh',
+    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_update.sh',
+  },
+  {
+    name: 'comfyui_windows_start.bat',
+    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start.bat',
+  },
+  {
+    name: 'comfyui_windows_start_cpu.bat',
+    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start_cpu.bat',
+  },
+  {
+    name: 'comfyui_windows_update.bat',
+    url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_update.bat',
+  },
+];
+
 const pluginList = [
   {
     name: 'ComfyUI-Manager',
@@ -54,6 +81,34 @@ export default function ComfyUI() {
     });
   };
 
+  const handleUpdate = async () => {
+    const path = `${installPath}/comfyui-portable`;
+    const pyPath = `${path}/ComfyUI/main.py`;
+    const pathExist = await ipcRenderer.invoke('fs.pathExists', { path: pyPath });
+
+    if (!pathExist) {
+      messageApi.open({
+        type: 'warning',
+        content: '请先执行【一键启动】按钮安装完成后再试',
+      });
+      return;
+    }
+
+    await ipcRenderer.invoke('download.fileList', path, fileList);
+
+    const platform = await ipcRenderer.invoke('process.platform');
+    if (platform === 'darwin') {
+      ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_macos_update.sh`);
+    } else if (platform === 'win32') {
+      ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_update.bat`);
+    } else {
+      messageApi.open({
+        type: 'error',
+        content: '抱歉该系统环境暂未支持',
+      });
+    }
+  };
+
   const handleRun = async () => {
     const pathExist = await ipcRenderer.invoke('fs.pathExists', { path: installPath });
     if (!pathExist) {
@@ -61,54 +116,25 @@ export default function ComfyUI() {
         type: 'warning',
         content: '安装位置文件夹不存在，请检查后再试',
       });
-    } else {
-      const path = `${installPath}/comfyui-portable`;
-      const fileList = [
-        {
-          name: 'comfyui_macos_start.sh',
-          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_start.sh',
-        },
-        {
-          name: 'comfyui_macos_update.sh',
-          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_macos_update.sh',
-        },
-        {
-          name: 'comfyui_windows_start.bat',
-          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start.bat',
-        },
-        {
-          name: 'comfyui_windows_start_cpu.bat',
-          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start_cpu.bat',
-        },
-        {
-          name: 'comfyui_windows_update.bat',
-          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_update.bat',
-        },
-        {
-          name: 'start.py',
-          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/start.py',
-        },
-      ];
-      await ipcRenderer.invoke('fs.ensureDir', { path });
-      await ipcRenderer.invoke('download.fileList', path, fileList);
+      return;
+    }
+    const path = `${installPath}/comfyui-portable`;
+    await ipcRenderer.invoke('fs.ensureDir', { path });
 
-      const platform = await ipcRenderer.invoke('process.platform');
-      if (platform === 'darwin') {
-        ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_macos_start.sh`);
-      } else if (platform === 'win32') {
-        if (graphic === 'CPU') {
-          ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start_cpu.bat`);
-        } else {
-          ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start.bat`);
-        }
-      } else {
-        messageApi.open({
-          type: 'error',
-          content: '抱歉该系统环境暂未支持',
-        });
-      }
-      ipcRenderer.once('shell.execute', ({ done }) => {
-        console.log(done);
+    const pyPath = `${path}/ComfyUI/main.py`;
+    if (!pyPath) await ipcRenderer.invoke('download.fileList', path, fileList);
+
+    const platform = await ipcRenderer.invoke('process.platform');
+    if (platform === 'darwin') {
+      ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_macos_start.sh`);
+    } else if (platform === 'win32') {
+      graphic === 'CPU'
+        ? ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start_cpu.bat`)
+        : ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start.bat`);
+    } else {
+      messageApi.open({
+        type: 'error',
+        content: '抱歉该系统环境暂未支持',
       });
     }
   };
@@ -157,9 +183,15 @@ export default function ComfyUI() {
           返回
         </Button>
 
-        <Button color="blue" radius="md" onClick={handleRun}>
-          一键启动
-        </Button>
+        <Flex>
+          <Button variant="default" color="blue" radius="md" onClick={handleUpdate}>
+            更新
+          </Button>
+          <Space w="xs" />
+          <Button color="blue" radius="md" onClick={handleRun}>
+            一键启动
+          </Button>
+        </Flex>
       </div>
 
       <Card shadow="none" m="md" padding="lg" radius="md">

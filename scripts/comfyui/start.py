@@ -116,7 +116,7 @@ def install_webui():
 def update_requirements():
     if os.path.exists("ComfyUI/"):
         os.chdir("ComfyUI")
-        run_cmd("git pull", environment=True)
+        run_cmd("git reset --hard && git pull", assert_success=True, environment=True)
         
         set_pip_mirror = "python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple"
         run_cmd(f"{set_pip_mirror} && python -m pip install -r requirements.txt --upgrade", assert_success=True, environment=True)
