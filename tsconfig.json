@@ -22,7 +22,7 @@
     "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
+  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll", "configs"]
 }
