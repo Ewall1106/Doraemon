@@ -169,7 +169,7 @@ export default function ComfyUI() {
             size="xs"
             disabled
             placeholder="请选择安装地址"
-            value={installPath}
+            value={installPath && `${installPath}/comfyui-portable`}
             error={pathInputError}
           />
           <Space w="md" />
