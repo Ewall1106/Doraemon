@@ -1,7 +1,22 @@
 import { useState } from 'react';
 import { OpenDialogReturnValue } from 'electron';
-import { Button, Flex, Space, Card, Text, Input, Anchor, SimpleGrid, SegmentedControl } from '@mantine/core';
-import { IconFile, IconArrowLeft, IconDownload, IconRefresh } from '@tabler/icons-react';
+import { useDisclosure } from '@mantine/hooks';
+import {
+  Button,
+  Flex,
+  Space,
+  Card,
+  Text,
+  Input,
+  Anchor,
+  SimpleGrid,
+  SegmentedControl,
+  Modal,
+  List,
+  ThemeIcon,
+  rem,
+} from '@mantine/core';
+import { IconFile, IconArrowLeft, IconDownload, IconRefresh, IconCircleCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 import gitUrlParse from 'git-url-parse';
@@ -64,6 +79,8 @@ const pluginList = [
 export default function ComfyUI() {
   const navigate = useNavigate();
   const [graphic, setGraphic] = useState('GPU');
+  const [pathInputError, setPathInputError] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
   const installPath = useComfyStore((state) => state.installPath);
   const setInstallPath = useComfyStore((state) => state.setInstallPath);
   const [messageApi, contextHolder] = message.useMessage();
@@ -74,6 +91,7 @@ export default function ComfyUI() {
       const filePath = result?.filePaths?.[0];
       if (!filePath) return;
       setInstallPath(filePath);
+      setPathInputError(false);
       messageApi.open({
         type: 'success',
         content: '安装位置设置成功',
@@ -89,7 +107,7 @@ export default function ComfyUI() {
     if (!pathExist) {
       messageApi.open({
         type: 'warning',
-        content: '请先执行【一键启动】按钮安装完成后再试',
+        content: '请先点击【一键启动】按钮完成安装后再试',
       });
       return;
     }
@@ -109,20 +127,14 @@ export default function ComfyUI() {
     }
   };
 
-  const handleRun = async () => {
-    const pathExist = await ipcRenderer.invoke('fs.pathExists', { path: installPath });
-    if (!pathExist) {
-      messageApi.open({
-        type: 'warning',
-        content: '安装位置文件夹不存在，请检查后再试',
-      });
-      return;
-    }
+  const handleInstall = async () => {
+    close();
     const path = `${installPath}/comfyui-portable`;
     await ipcRenderer.invoke('fs.ensureDir', { path });
 
     const pyPath = `${path}/ComfyUI/main.py`;
-    if (!pyPath) await ipcRenderer.invoke('download.fileList', path, fileList);
+    const pyPathExist = await ipcRenderer.invoke('fs.pathExists', { path: pyPath });
+    if (!pyPathExist) await ipcRenderer.invoke('download.fileList', path, fileList);
 
     const platform = await ipcRenderer.invoke('process.platform');
     if (platform === 'darwin') {
@@ -136,6 +148,27 @@ export default function ComfyUI() {
         type: 'error',
         content: '抱歉该系统环境暂未支持',
       });
+    }
+  };
+
+  const handleRun = async () => {
+    const pathExist = await ipcRenderer.invoke('fs.pathExists', { path: installPath });
+    if (!pathExist) {
+      setPathInputError(true);
+      messageApi.open({
+        type: 'warning',
+        content: '安装位置路径有误，请检查后再试',
+      });
+      return;
+    }
+
+    const path = `${installPath}/comfyui-portable`;
+    const pyPath = `${path}/ComfyUI/main.py`;
+    const pyPathExist = await ipcRenderer.invoke('fs.pathExists', { path: pyPath });
+    if (!pyPathExist) {
+      open();
+    } else {
+      handleInstall();
     }
   };
 
@@ -178,11 +211,43 @@ export default function ComfyUI() {
     <div className={styles.home}>
       {contextHolder}
 
+      <Modal opened={opened} onClose={close} title="提示">
+        <List
+          spacing="xs"
+          size="sm"
+          center
+          icon={
+            <ThemeIcon color="teal" size={20} radius="xl">
+              <IconCircleCheck style={{ width: rem(12), height: rem(12) }} />
+            </ThemeIcon>
+          }
+        >
+          <List.Item>请确保该安装目录磁盘有5G左右容量空间</List.Item>
+          <List.Item>安装过程可能需要5-10分钟，请勿关机或息屏</List.Item>
+          <List.Item>安装过程如果由于网络波动问题导致安装失败，删除整个文件夹后重装即可</List.Item>
+          <List.Item>看看下面的安装操作视频流程吧</List.Item>
+        </List>
+
+        <iframe
+          title="1231"
+          style={{ border: 'none', marginTop: 15 }}
+          width="100%"
+          src="//player.bilibili.com/player.html?aid=367052086&bvid=BV1h94y1P7df&cid=1361008212&p=1&autoplay=0"
+        />
+
+        <Flex justify="flex-end" mt="md">
+          <Button variant="default" onClick={close}>
+            取消
+          </Button>
+          <Space w="xs" />
+          <Button onClick={handleInstall}>确认安装</Button>
+        </Flex>
+      </Modal>
+
       <div className={styles.header}>
         <Button leftSection={<IconArrowLeft size={14} />} variant="default" onClick={() => navigate('/')}>
           返回
         </Button>
-
         <Flex>
           <Button variant="default" color="blue" radius="md" onClick={handleUpdate}>
             更新
@@ -197,7 +262,14 @@ export default function ComfyUI() {
       <Card shadow="none" m="md" padding="lg" radius="md">
         <Flex align="center">
           <Text size="sm">安装位置：</Text>
-          <Input style={{ flexGrow: 1 }} size="xs" disabled placeholder="请选择安装地址" value={installPath} />
+          <Input
+            style={{ flexGrow: 1 }}
+            size="xs"
+            disabled
+            placeholder="请选择安装地址"
+            value={installPath}
+            error={pathInputError}
+          />
           <Space w="md" />
           <Button size="xs" leftSection={<IconFile size={14} />} variant="default" onClick={handleSelectPath}>
             {installPath ? '更换位置' : '选择安装位置'}
