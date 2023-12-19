@@ -129,13 +129,16 @@ def update_requirements():
     clear_cache()
 
 
-def launch_webui():
+def launch_webui(cpu = False):
     comfyui_path = os.path.join("ComfyUI", 'main.py')
     
     if is_windows():
-        run_cmd(f"python {comfyui_path} --auto-launch", environment=True)
+        if cpu: 
+            run_cmd(f"python {comfyui_path} --auto-launch", environment=True)
+        else: 
+            run_cmd(f"python {comfyui_path} --cpu --auto-launch", environment=True)
     elif is_macos():
-        run_cmd(f"python {comfyui_path} --force-fp16 --auto-launch", environment=True)
+        run_cmd(f"python {comfyui_path} --auto-launch", environment=True)
 
 
 if __name__ == "__main__":
@@ -144,6 +147,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('--update', action='store_true', help='Update the web UI.')
+    parser.add_argument('--cpu', action='store_true', help='Start the web UI with CPU.')
     args, _ = parser.parse_known_args()
 
     if args.update:
@@ -154,4 +158,4 @@ if __name__ == "__main__":
             install_webui()
             os.chdir(script_dir)
 
-        launch_webui()
+        launch_webui(args.cpu)

@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { OpenDialogReturnValue } from 'electron';
-import { Button, Flex, Space, Card, Text, Input, Anchor, SimpleGrid } from '@mantine/core';
+import { Button, Flex, Space, Card, Text, Input, Anchor, SimpleGrid, SegmentedControl } from '@mantine/core';
 import { IconFile, IconArrowLeft, IconDownload, IconRefresh } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
@@ -35,6 +36,7 @@ const pluginList = [
 
 export default function ComfyUI() {
   const navigate = useNavigate();
+  const [graphic, setGraphic] = useState('GPU');
   const installPath = useComfyStore((state) => state.installPath);
   const setInstallPath = useComfyStore((state) => state.setInstallPath);
   const [messageApi, contextHolder] = message.useMessage();
@@ -75,6 +77,10 @@ export default function ComfyUI() {
           url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start.bat',
         },
         {
+          name: 'comfyui_windows_start_cpu.bat',
+          url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_start_cpu.bat',
+        },
+        {
           name: 'comfyui_windows_update.bat',
           url: 'https://gitee.com/zhuzhukeji/annotators/raw/master/comfyui/comfyui_windows_update.bat',
         },
@@ -90,7 +96,11 @@ export default function ComfyUI() {
       if (platform === 'darwin') {
         ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_macos_start.sh`);
       } else if (platform === 'win32') {
-        ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start.bat`);
+        if (graphic === 'CPU') {
+          ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start_cpu.bat`);
+        } else {
+          ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_start.bat`);
+        }
       } else {
         messageApi.open({
           type: 'error',
@@ -160,6 +170,18 @@ export default function ComfyUI() {
           <Button size="xs" leftSection={<IconFile size={14} />} variant="default" onClick={handleSelectPath}>
             {installPath ? '更换位置' : '选择安装位置'}
           </Button>
+        </Flex>
+        <Space h="md" />
+        <Flex align="center">
+          <Text size="sm">启动方式：</Text>
+          <SegmentedControl
+            value={graphic}
+            onChange={setGraphic}
+            data={[
+              { label: 'GPU', value: 'GPU' },
+              { label: 'CPU', value: 'CPU' },
+            ]}
+          />
         </Flex>
       </Card>
 
