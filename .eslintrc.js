@@ -15,6 +15,9 @@ module.exports = {
     'no-console': 'off',
     'promise/always-return': 'off',
     'no-unused-expressions': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    'import/prefer-default-export': 'off',
+    'react/prop-types': 'off',
   },
   parserOptions: {
     ecmaVersion: 2022,

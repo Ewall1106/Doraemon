@@ -5,3 +5,4 @@ export * from './dialog';
 export * from './fs';
 export * from './process';
 export * from './git';
+export * from './request';

@@ -8,11 +8,13 @@ export type Channels =
   | 'git.urlParse'
   | 'download.bigFile'
   | 'download.fileList'
+  | 'fs.remove'
   | 'fs.ensureDir'
   | 'fs.pathExists'
   | 'shell.execute'
   | 'process.platform'
-  | 'dialog.openDirectory';
+  | 'dialog.openDirectory'
+  | 'request.get';
 
 const electronHandler = {
   ipcRenderer: {

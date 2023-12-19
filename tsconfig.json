@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@/store": ["src/renderer/store"]
+      "@/store": ["src/renderer/store"],
+      "@/shared": ["src/shared"]
     },
     "incremental": true,
     "target": "es2022",
