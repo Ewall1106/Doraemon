@@ -27,9 +27,21 @@ export function ActionButton({ item }) {
     };
 
     checkPathExists();
-  }, []);
+  }, [installPath]);
 
   const handlePluginClone = async () => {
+    const path = `${installPath}/comfyui-portable`;
+    const pyPath = `${path}/ComfyUI/main.py`;
+    const pathExist = await ipcRenderer.invoke('fs.pathExists', { path: pyPath });
+
+    if (!pathExist) {
+      messageApi.open({
+        type: 'warning',
+        content: '请先点击【一键启动】按钮完成安装后再试',
+      });
+      return;
+    }
+
     try {
       setInstallLoading(true);
       const parsedUrl = gitUrlParse(item.git_cn);
@@ -147,13 +159,16 @@ export function ActionButton({ item }) {
 export default function PluginList() {
   const [tipOne, setTipOne] = useState(true);
   const [tipTwo, setTipTwo] = useState(true);
+  const [tipThree, setTipThree] = useState(true);
   const info = useComfyStore((state) => state.info);
 
   const onRemove = (idx) => {
     if (idx === 1) {
       setTipOne(false);
-    } else {
+    } else if (idx === 2) {
       setTipTwo(false);
+    } else {
+      setTipThree(false);
     }
   };
 
@@ -173,6 +188,13 @@ export default function PluginList() {
           {tipTwo && (
             <Pill onRemove={() => onRemove(2)} withRemoveButton>
               每次安装或更新插件后记得关闭【终端】，然后点击【一键启动】重启
+            </Pill>
+          )}
+        </div>
+        <div>
+          {tipThree && (
+            <Pill onRemove={() => onRemove(3)} withRemoveButton>
+              本启动器没有对官方代码做任何侵入，启动时把&quot;魔法&quot;打开可以更好的减少插件内部由于网络导致的报错
             </Pill>
           )}
         </div>

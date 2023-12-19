@@ -192,6 +192,7 @@ export default function ComfyUI() {
       </Card>
 
       <PluginList />
+      <Space h="sm" />
     </div>
   );
 }
