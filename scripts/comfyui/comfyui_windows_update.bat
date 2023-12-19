@@ -4,7 +4,7 @@ cd /D "%~dp0"
 
 set PATH=%PATH%;%SystemRoot%\system32
 
-echo "%CD%"| findstr /C:" " >nul && echo 当前位置路径中有空格，请更换安装位置后再试 This script relies on Miniconda which can not be silently installed under a path with spaces. && goto end
+echo "%CD%"| findstr /C:" " >nul && echo This script relies on Miniconda which can not be silently installed under a path with spaces. && goto end
 
 @rem fix failed install when installing to a separate drive
 set TMP=%cd%\installer_files
@@ -30,7 +30,7 @@ call "%CONDA_ROOT_PREFIX%\condabin\conda.bat" activate "%INSTALL_ENV_DIR%" || ( 
 @rem update installer env
 call python start.py --update && (
     echo.
-    echo Done! 更新完成！
+    echo Done!
 )
 
 :end

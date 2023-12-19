@@ -2,7 +2,7 @@
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-if [[ "$(pwd)" =~ " " ]]; then echo 当前位置路径中有空格，请更换安装位置后再试 This script relies on Miniconda which can not be silently installed under a path with spaces. && exit; fi
+if [[ "$(pwd)" =~ " " ]]; then echo This script relies on Miniconda which can not be silently installed under a path with spaces. && exit; fi
 
 # deactivate existing conda envs as needed to avoid conflicts
 { conda deactivate && conda deactivate && conda deactivate; } 2> /dev/null
@@ -23,4 +23,4 @@ source "$CONDA_ROOT_PREFIX/etc/profile.d/conda.sh" # otherwise conda complains a
 conda activate "$INSTALL_ENV_DIR"
 
 # update installer env
-python start.py --update && echo -e "\nDone! 更新完成！"
+python start.py --update && echo -e "\nDone!"
