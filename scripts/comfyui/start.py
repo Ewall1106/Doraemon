@@ -134,9 +134,9 @@ def launch_webui(cpu = False):
     
     if is_windows():
         if cpu: 
-            run_cmd(f"python {comfyui_path} --auto-launch", environment=True)
-        else: 
             run_cmd(f"python {comfyui_path} --cpu --auto-launch", environment=True)
+        else: 
+            run_cmd(f"python {comfyui_path} --auto-launch", environment=True)
     elif is_macos():
         run_cmd(f"python {comfyui_path} --auto-launch", environment=True)
 
