@@ -106,7 +106,7 @@ def install_webui():
         run_cmd(f"conda install -y -c \"nvidia/label/{'cuda-12.1.1' if use_cuda118 == 'N' else 'cuda-11.8.0'}\" cuda-runtime", assert_success=True, environment=True)
 
     if not os.path.exists("ComfyUI/"):
-        run_cmd("git clone https://gitee.com/zhuzhukeji/ComfyUI.git", environment=True)
+        run_cmd("git clone https://e.coding.net/g-xeps0419/doraemon/ComfyUI.git", environment=True)
         
     # Install the requirements
     comfyui_req_path = os.path.join("ComfyUI", "requirements.txt")
