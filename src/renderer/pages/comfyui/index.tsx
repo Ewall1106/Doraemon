@@ -1,13 +1,37 @@
 import { OpenDialogReturnValue } from 'electron';
-import { Button, Flex, Space, Card, Text, Input, Anchor, Title } from '@mantine/core';
-import { IconFile, IconArrowLeft } from '@tabler/icons-react';
+import { Button, Flex, Space, Card, Text, Input, Anchor, SimpleGrid } from '@mantine/core';
+import { IconFile, IconArrowLeft, IconDownload, IconRefresh } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
+import gitUrlParse from 'git-url-parse';
 import { useComfyStore } from '@/store';
 
 import styles from './styles.module.scss';
 
 const { ipcRenderer } = window.electron;
+
+const pluginList = [
+  {
+    name: 'ComfyUI-Manager',
+    github: 'https://github.com/ltdrdata/ComfyUI-Manager.git',
+    gitee: 'https://gitee.com/zhuzhukeji/ComfyUI-Manager.git',
+  },
+  {
+    name: 'ComfyUI-AnimateDiff-Evolved',
+    github: 'https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git',
+    gitee: 'https://gitee.com/zhuzhukeji/ComfyUI-AnimateDiff-Evolved.git',
+  },
+  {
+    name: 'comfyui_controlnet_aux',
+    github: 'https://github.com/ltdrdata/ComfyUI-Manager.git',
+    gitee: 'https://gitee.com/zhuzhukeji/ComfyUI-Manager.git',
+  },
+  {
+    name: 'ComfyUI-Advanced-ControlNet',
+    github: 'https://github.com/ltdrdata/ComfyUI-Manager.git',
+    gitee: 'https://gitee.com/zhuzhukeji/ComfyUI-Manager.git',
+  },
+];
 
 export default function ComfyUI() {
   const navigate = useNavigate();
@@ -81,29 +105,38 @@ export default function ComfyUI() {
 
   const handlePluginClone = async (item) => {
     try {
-      const repoURL = `${item.gitee}.git`;
-      const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/ComfyUI-Manager`;
+      const parsedUrl = gitUrlParse(item.gitee);
+      const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/${parsedUrl.name}`;
       await ipcRenderer.invoke('fs.ensureDir', { path: targetDirectory });
-      await ipcRenderer.invoke('git.clone', { repoURL, targetDirectory });
+      await ipcRenderer.invoke('git.clone', { repoURL: item.gitee, targetDirectory });
       messageApi.open({
         type: 'success',
-        content: '下载成功',
+        content: '安装成功',
       });
     } catch (error) {
       messageApi.open({
         type: 'error',
-        content: '下载失败',
+        content: '安装失败',
       });
     }
   };
 
-  const pluginList = [
-    {
-      name: 'ComfyUI-Manager',
-      github: 'https://github.com/ltdrdata/ComfyUI-Manager',
-      gitee: 'https://gitee.com/zhuzhukeji/ComfyUI-Manager',
-    },
-  ];
+  const handlePluginPull = async (item) => {
+    const parsedUrl = gitUrlParse(item.gitee);
+    try {
+      const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/${parsedUrl.name}`;
+      await ipcRenderer.invoke('git.pull', { targetDirectory });
+      messageApi.open({
+        type: 'success',
+        content: '更新成功',
+      });
+    } catch (error) {
+      messageApi.open({
+        type: 'error',
+        content: '更新成功',
+      });
+    }
+  };
 
   return (
     <div className={styles.home}>
@@ -132,12 +165,14 @@ export default function ComfyUI() {
 
       <Card shadow="none" m="md" padding="lg" radius="md">
         <Text size="sm">插件列表：</Text>
-
-        <Flex align="center">
+        <Space h="xs" />
+        <SimpleGrid cols={{ base: 1, sm: 3, lg: 5 }}>
           {pluginList.map((item) => {
             return (
-              <Card shadow="none" m="md" padding="lg" radius="md" withBorder key={item.name}>
-                <Title order={5}>{item.name}</Title>
+              <Card style={{ width: '100%' }} shadow="none" padding="xs" radius="md" withBorder key={item.name}>
+                <Text size="sm" fw="bold">
+                  {item.name}
+                </Text>
                 <Space h="md" />
                 <Flex>
                   <Anchor size="sm" href={item.github} target="_blank">
@@ -152,18 +187,30 @@ export default function ComfyUI() {
                 </Flex>
                 <Space h="md" />
                 <Flex>
-                  <Button variant="default" size="xs" radius="md" onClick={() => handlePluginClone(item)}>
+                  <Button
+                    variant="outline"
+                    rightSection={<IconDownload size={14} />}
+                    size="xs"
+                    radius="md"
+                    onClick={() => handlePluginClone(item)}
+                  >
                     安装
                   </Button>
                   <Space w="xs" />
-                  <Button variant="default" size="xs" radius="md" onClick={() => navigate('/comfyui')}>
+                  <Button
+                    rightSection={<IconRefresh size={14} />}
+                    variant="default"
+                    size="xs"
+                    radius="md"
+                    onClick={() => handlePluginPull(item)}
+                  >
                     更新
                   </Button>
                 </Flex>
               </Card>
             );
           })}
-        </Flex>
+        </SimpleGrid>
       </Card>
     </div>
   );

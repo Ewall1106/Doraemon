@@ -1,7 +1,15 @@
 import { ipcMain } from 'electron';
 import { simpleGit } from 'simple-git';
+import gitUrlParse from 'git-url-parse';
 
 export const gitInit = () => {
+  ipcMain.handle('git.urlParse', async (event, args) => {
+    const { url } = args;
+    const parsedUrl = gitUrlParse(url);
+    const { owner, name, resource, protocol } = parsedUrl;
+    return { owner, name, resource, protocol };
+  });
+
   ipcMain.handle('git.clone', async (event, args) => {
     const { repoURL, targetDirectory } = args;
     const git = simpleGit();

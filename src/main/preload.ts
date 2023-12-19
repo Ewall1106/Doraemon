@@ -3,14 +3,16 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels =
+  | 'git.clone'
+  | 'git.pull'
+  | 'git.urlParse'
   | 'download.bigFile'
   | 'download.fileList'
   | 'fs.ensureDir'
   | 'fs.pathExists'
   | 'shell.execute'
   | 'process.platform'
-  | 'dialog.openDirectory'
-  | 'git.clone';
+  | 'dialog.openDirectory';
 
 const electronHandler = {
   ipcRenderer: {
