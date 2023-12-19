@@ -48,24 +48,21 @@ export const downloadInit = () => {
     return result;
   });
 
-  ipcMain.on('download.bigFile', async (event, dirPath) => {
-    console.log(dirPath);
-
+  ipcMain.on('download.bigFile', async (event, { path, url, id }) => {
     const throttledReply = throttle((args) => {
       event.reply('download.bigFile', args);
     }, 500);
 
     axios({
       method: 'get',
-      url: '',
+      url,
       responseType: 'stream',
     })
       .then((response) => {
         let downloadedLength = 0;
 
         const startTime = Date.now();
-        const filePath = `/Users/xiong/Desktop/qqqqq/hsxl_temporal_layers.f16.safetensors`;
-        const writer = fs.createWriteStream(filePath);
+        const writer = fs.createWriteStream(path);
         const totalLength = parseInt(response.headers['content-length'], 10);
 
         response.data.pipe(writer);
@@ -77,6 +74,7 @@ export const downloadInit = () => {
           const speed = downloadedLength / elapsedTime / 1024; // in KB/s
           console.log(`Download Progress: ${progress.toFixed(0)}%, Speed: ${speed.toFixed(0)} KB/s`);
           throttledReply({
+            id,
             status: 'downloading',
             speed: speed.toFixed(0),
             progress: progress.toFixed(0),
@@ -85,16 +83,17 @@ export const downloadInit = () => {
 
         writer.on('finish', () => {
           console.log('File downloaded successfully.');
+          event.reply('download.bigFile', { id, status: 'finish' });
         });
 
         writer.on('error', (err) => {
           console.error(`Error writing to file: ${err.message}`);
-          event.reply('download.bigFile', { status: 'error' });
+          event.reply('download.bigFile', { id, status: 'error' });
         });
       })
       .catch((err) => {
         console.error(`Error downloading file: ${err.message}`);
-        event.reply('download.bigFile', { status: 'error' });
+        event.reply('download.bigFile', { id, status: 'error' });
       });
   });
 };

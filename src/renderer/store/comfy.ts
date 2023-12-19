@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { cloneDeep } from 'lodash';
 
 type State = {
   info: any;
@@ -24,9 +23,8 @@ export const useComfyStore = create(
     installPath: window.electron.store.get('COMFYUI_INSTALL_PATH'),
 
     setInfo: (info) => {
-      const newInfo = cloneDeep(info);
       set((state) => {
-        state.info = newInfo;
+        state.info = info;
       });
     },
 
