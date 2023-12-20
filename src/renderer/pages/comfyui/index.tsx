@@ -161,6 +161,8 @@ export default function ComfyUI() {
         </Flex>
       </div>
 
+      <Space h={60} />
+
       <Card shadow="none" m="md" padding="lg" radius="md">
         <Flex align="center">
           <Text size="sm">安装位置：</Text>
