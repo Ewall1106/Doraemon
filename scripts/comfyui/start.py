@@ -102,7 +102,7 @@ def install_webui():
         install_pytorch = f"python -m pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu"
         
     # Install Git and then Pytorch
-    run_cmd(f"{set_pip_mirror} && {install_git} && {install_conda_patch} && {install_pytorch} && {install_patch} && python -m pip install py-cpuinfo==9.0.0", assert_success=True, environment=True)
+    run_cmd(f"{set_pip_mirror} && {install_git} && {install_conda_patch} && {install_pytorch} && {install_patch}", assert_success=True, environment=True)
 
     # Install CUDA libraries (this wasn't necessary for Pytorch before...)
     if is_windows():
