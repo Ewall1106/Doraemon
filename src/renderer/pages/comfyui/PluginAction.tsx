@@ -155,9 +155,11 @@ export default function PluginAction({ item }) {
               更新
             </Button>
             <Space w="xs" />
-            <Button rightSection={<IconDownload size={14} />} variant="default" size="xs" radius="md" onClick={open}>
-              模型下载
-            </Button>
+            {item?.modelList?.length > 0 && (
+              <Button rightSection={<IconDownload size={14} />} variant="default" size="xs" radius="md" onClick={open}>
+                模型下载
+              </Button>
+            )}
           </>
         )}
       </Flex>
