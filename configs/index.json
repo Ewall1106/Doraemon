@@ -42,31 +42,31 @@
         "modelList": [
           {
             "name": "mm_sd_v14.ckpt",
-            "targetInstallPath": "ComfyUI-AnimateDiff-Evolved/models",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
             "source": "https://huggingface.co/guoyww/animatediff/tree/main",
             "url": "https://download.openxlab.org.cn/models/Masbfca/AnimateDiff/weight/mm_sd_v14.ckpt"
           },
           {
             "name": "mm_sd_v15.ckpt",
-            "targetInstallPath": "ComfyUI-AnimateDiff-Evolved/models",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
             "source": "https://huggingface.co/guoyww/animatediff/tree/main",
             "url": "https://download.openxlab.org.cn/models/Masbfca/AnimateDiff/weight/mm_sd_v15.ckpt"
           },
           {
             "name": "mm_sd_v15_v2.ckpt",
-            "targetInstallPath": "ComfyUI-AnimateDiff-Evolved/models",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
             "source": "https://huggingface.co/guoyww/animatediff/tree/main",
             "url": "https://download.openxlab.org.cn/models/Masbfca/AnimateDiff/weight/mm_sd_v15_v2.ckpt"
           },
           {
             "name": "temporaldiff-v1-animatediff.ckpt",
-            "targetInstallPath": "ComfyUI-AnimateDiff-Evolved/models",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
             "source": "https://huggingface.co/CiaraRowles/TemporalDiff/tree/main",
             "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=checkpoints/temporaldiff-v1-animatediff.ckpt"
           },
           {
             "name": "animatediffMotion_v15V2.ckpt",
-            "targetInstallPath": "ComfyUI-AnimateDiff-Evolved/models",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
             "source": "https://civitai.com/models/108836/animatediff-motion-modules",
             "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=checkpoints/temporaldiff-v1-animatediff.ckpt"
           }
@@ -77,7 +77,44 @@
         "github": "https://github.com/cubiq/ComfyUI_IPAdapter_plus.git",
         "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI_IPAdapter_plus.git",
         "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI_IPAdapter_plus/git/files",
-        "modelList": []
+        "modelList": [
+          {
+            "name": "ip_adapter_image_encoder_pytorch_model.bin",
+            "targetInstallPath": "ComfyUI/models/clip_vision",
+            "source": "https://huggingface.co/h94/IP-Adapter/tree/main",
+            "url": "https://bj.bcebos.com/v1/ai-studio-online/netdisk/9b646654750e4d0ca21350ae7f36427f0a23d516e15e4c33b88f9b76e44fcdb2?responseContentDisposition=attachment%3B%20filename%3Dip_adapter_image_encoder_pytorch_model.bin"
+          },
+          {
+            "name": "ip-adapter_sdxl_vit-h.bin",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus/models",
+            "source": "https://huggingface.co/h94/IP-Adapter/tree/main",
+            "url": "https://bj.bcebos.com/v1/ai-studio-online/netdisk/1a21468dcbb742f5afda02f6130760a5fa626ee2009640ee9baf8892c7924d33?responseContentDisposition=attachment%3B%20filename%3Dip-adapter_sdxl_vit-h.bin"
+          },
+          {
+            "name": "ip-adapter_sd15.pth",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus/models",
+            "source": "https://huggingface.co/h94/IP-Adapter/tree/main",
+            "url": "https://bj.bcebos.com/v1/ai-studio-online/netdisk/ab14b3e8e025404489972c9c74cfdaed26dcb7e138924be0acc99957918521af?responseContentDisposition=attachment%3B%20filename%3Dip-adapter_sd15.pth"
+          },
+          {
+            "name": "ip-adapter_sd15_plus.pth",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus/models",
+            "source": "https://huggingface.co/h94/IP-Adapter/tree/main",
+            "url": "https://bj.bcebos.com/v1/ai-studio-online/netdisk/81884dea5041412b84f55ca1695e93e74ed36a2956e94c9d88c19e4323cec89e?responseContentDisposition=attachment%3B%20filename%3Dip-adapter_sd15_plus.pth"
+          },
+          {
+            "name": "ip-adapter_sd15_light.bin",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus/models",
+            "source": "https://huggingface.co/h94/IP-Adapter/tree/main",
+            "url": "https://bj.bcebos.com/v1/ai-studio-online/netdisk/d7865ab0482d450cbacdb85c4edbb17ed366392a85c144b4aec2b952273d6e59?responseContentDisposition=attachment%3B%20filename%3Dip-adapter_sd15_light.bin"
+          },
+          {
+            "name": "ip-adapter_sdxl_vit-h.safetensors",
+            "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI_IPAdapter_plus/models",
+            "source": "https://huggingface.co/h94/IP-Adapter/tree/main",
+            "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=ip-adapter_sdxl_vit-h.safetensors"
+          }
+        ]
       },
       {
         "name": "comfyui_controlnet_aux",

@@ -12,7 +12,7 @@ export function ModelDownlod({ item }) {
   const installPath = useComfyStore((state) => state.installPath);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const targetInstallDir = `${installPath}/comfyui-portable/ComfyUI/${item.targetInstallPath}`;
+  const targetInstallDir = `${installPath}/comfyui-portable/${item.targetInstallPath}`;
   const targetInstallPath = `${targetInstallDir}/${item.name}`;
 
   useEffect(() => {
@@ -53,10 +53,10 @@ export function ModelDownlod({ item }) {
           </Text>
           <Space h="xs" />
           <Flex align="center">
-            <Text size="sm" fw="bold">
+            <Text size="sm" fw="bold" style={{ flexShrink: 0 }}>
               下载位置：
             </Text>
-            <Text size="xs" lineClamp={1} style={{ maxWidth: '90%' }}>
+            <Text size="xs" lineClamp={1} style={{ flexShrink: 1 }}>
               {`${targetInstallDir}`}
             </Text>
           </Flex>

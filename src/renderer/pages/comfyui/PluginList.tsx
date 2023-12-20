@@ -48,7 +48,7 @@ export default function PluginList() {
           )}
         </div>
         <Space h="sm" />
-        <SimpleGrid cols={{ base: 1, sm: 3, lg: 5 }}>
+        <SimpleGrid cols={{ base: 1, sm: 3, lg: 4 }}>
           {info.pluginList.map((item) => {
             return (
               <Card style={{ width: '100%' }} shadow="none" padding="xs" radius="md" withBorder key={item.name}>
