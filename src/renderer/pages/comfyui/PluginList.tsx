@@ -72,6 +72,18 @@ export default function PluginList() {
               </Card>
             );
           })}
+          <Card style={{ width: '100%' }} shadow="none" padding="xs" radius="md" withBorder>
+            <Text size="sm" fw="bold">
+              更多插件接入中...
+            </Text>
+            <Space h="md" />
+            <Flex>
+              <Anchor size="sm" href="https://github.com/Ewall1106/Doraemon" target="_blank">
+                欢迎提出你的意见 && 共同进行开源建设
+              </Anchor>
+            </Flex>
+            <Space h="md" />
+          </Card>
         </SimpleGrid>
       </Card>
     </div>
