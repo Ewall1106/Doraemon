@@ -117,6 +117,13 @@
         ]
       },
       {
+        "name": "ComfyUI-VideoHelperSuite",
+        "github": "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git",
+        "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI-VideoHelperSuite.git",
+        "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-VideoHelperSuite/git/files",
+        "modelList": []
+      },
+      {
         "name": "comfyui_controlnet_aux",
         "github": "https://github.com/Fannovel16/comfyui_controlnet_aux.git",
         "git_cn": "https://e.coding.net/g-xeps0419/doraemon/comfyui_controlnet_aux.git",
