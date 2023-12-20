@@ -93,7 +93,7 @@ def install_webui():
     install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
     install_conda_patch = 'conda install -y -k ffmpeg'
     # Set pip mirror to Tsinghua mirror
-    set_pip_mirror = "python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple"
+    set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
     
     use_cuda118 = "N"
     if is_windows():
@@ -121,7 +121,7 @@ def update_requirements():
         os.chdir("ComfyUI")
         run_cmd("git reset --hard && git pull", assert_success=True, environment=True)
         
-        set_pip_mirror = "python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple"
+        set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
         # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
         install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
         install_conda_patch = 'conda install -y -k ffmpeg'
