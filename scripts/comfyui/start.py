@@ -89,6 +89,8 @@ def install_webui():
     # Find the proper Pytorch installation command
     install_git = "conda install -y -k ninja git"
     install_pytorch = "python -m pip install torch torchvision torchaudio"
+    # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
+    install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime"
     # Set pip mirror to Tsinghua mirror
     set_pip_mirror = "python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple"
     
@@ -99,7 +101,7 @@ def install_webui():
         install_pytorch = f"python -m pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu"
         
     # Install Git and then Pytorch
-    run_cmd(f"{set_pip_mirror} && {install_git} && {install_pytorch} && python -m pip install py-cpuinfo==9.0.0", assert_success=True, environment=True)
+    run_cmd(f"{set_pip_mirror} && {install_git} && {install_pytorch} && {install_patch} && python -m pip install py-cpuinfo==9.0.0", assert_success=True, environment=True)
 
     # Install CUDA libraries (this wasn't necessary for Pytorch before...)
     if is_windows():
