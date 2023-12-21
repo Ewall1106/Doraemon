@@ -1,6 +1,6 @@
 {
   "name": "doraemon",
-  "description": "",
+  "description": "Universal AI Tool Pocket",
   "keywords": [],
   "license": "MIT",
   "author": "daniel-xiong",
@@ -159,8 +159,8 @@
     }
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Doraemon",
+    "appId": "org.erb.Doraemon",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -218,12 +218,9 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "doraemon",
+      "repo": "doraemon"
     }
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "devEngines": {
     "node": ">=14.x",
