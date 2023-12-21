@@ -1,7 +1,8 @@
-import { Button, Flex, Space, Card, Anchor, Group, Text, Title, Avatar, SimpleGrid } from '@mantine/core';
+import { Button, Flex, Space, Card, Anchor, Group, Text, Title, Avatar, SimpleGrid, Image } from '@mantine/core';
+import { IconBrandGithubFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore, useComfyStore } from '@/store';
-
+import logo from '../../../../assets/icon.svg';
 import styles from './styles.module.scss';
 
 export default function Home() {
@@ -20,6 +21,25 @@ export default function Home() {
 
   return (
     <div className={styles.home}>
+      <div className={styles.header}>
+        <Flex align="center">
+          <Image width={40} height={40} src={logo} alt="Doraemon" />
+          <Space w="xs" />
+          <Title order={5}>AI百宝箱</Title>
+        </Flex>
+        <Button
+          rightSection={<IconBrandGithubFilled />}
+          variant="light"
+          component="a"
+          target="_blank"
+          href="https://github.com/Ewall1106/Doraemon"
+        >
+          Github
+        </Button>
+      </div>
+
+      <Space h={60} />
+
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
         {appInfo?.appList &&
           appInfo.appList.map((item, idx) => {

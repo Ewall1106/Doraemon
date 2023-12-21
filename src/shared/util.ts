@@ -22,5 +22,5 @@ export function compareVersions(sourceVersion, targetVersion) {
     }
   }
 
-  return true;
+  return false;
 }

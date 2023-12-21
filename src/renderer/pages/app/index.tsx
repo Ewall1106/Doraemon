@@ -19,12 +19,12 @@ export default function App() {
   const setAppInfo = useAppStore((state) => state.setAppInfo);
 
   const init = async () => {
-    const { mainVersion }: any = await ipcRenderer.invoke('app.getVersion');
+    const version: any = await ipcRenderer.invoke('app.getVersion');
     const res: any = await ipcRenderer.invoke('request.get', requestConfigUrl);
     console.log('init request:', res);
     setAppInfo(res);
 
-    if (compareVersions(res?.mainVersion, mainVersion)) {
+    if (compareVersions(res?.mainVersion, version?.mainVersion)) {
       open();
       setMainVersion(res?.mainVersion);
     }
