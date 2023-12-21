@@ -110,7 +110,7 @@ export default function ComfyUI() {
   };
 
   return (
-    <div className={styles.home}>
+    <div className={styles.comfyui}>
       {contextHolder}
 
       <Modal opened={opened} onClose={close} title="提示">

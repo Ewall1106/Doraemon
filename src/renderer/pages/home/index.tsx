@@ -1,43 +1,71 @@
-import { Button, Flex, Space, Card, Anchor, Grid, Group, Text, Title, Avatar } from '@mantine/core';
+import { Button, Flex, Space, Card, Anchor, Group, Text, Title, Avatar, SimpleGrid } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore, useComfyStore } from '@/store';
 
 import styles from './styles.module.scss';
 
 export default function Home() {
   const navigate = useNavigate();
+  const appInfo = useAppStore((state) => state.appInfo);
+  const setComfyInfo = useComfyStore((state) => state.setInfo);
+
+  const handleNavigate = (item) => {
+    if (item.route === '/comfyui') {
+      // 非通用
+      setComfyInfo(item);
+    }
+
+    navigate(item.route);
+  };
 
   return (
     <div className={styles.home}>
-      <Grid mt="sm">
-        <Grid.Col span={6}>
-          <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <Group mt="md" mb="xs">
-              <Avatar variant="filled" radius="sm" src="https://avatars.githubusercontent.com/u/121283862?v=4" />
-              <Title order={4}>ComfyUI启动器</Title>
-            </Group>
+      <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
+        {appInfo?.appList &&
+          appInfo.appList.map((item, idx) => {
+            return (
+              <Card shadow="sm" padding="lg" radius="md" withBorder key={idx}>
+                <Group mt="md" mb="xs">
+                  <Avatar variant="filled" radius="sm" src={item.logo} />
+                  <Flex direction="column">
+                    <Title order={4}>{item.name}</Title>
+                    <Text c="dimmed" fz="sm">
+                      {item.brief}
+                    </Text>
+                  </Flex>
+                </Group>
 
-            <Space h="md" />
+                <Space h="md" />
 
-            <Flex>
-              <Anchor size="sm" href="" target="_blank">
-                视频教程
-              </Anchor>
-              <Text size="sm" c="dimmed" px="2px">
-                |
-              </Text>
-              <Anchor size="sm" href="" target="_blank">
-                文章教程
-              </Anchor>
-            </Flex>
+                <Flex>
+                  {item?.linkList &&
+                    item.linkList.map((info, jdx) => {
+                      return (
+                        <Flex key={jdx}>
+                          <Anchor size="sm" href={info.link} target="_blank">
+                            {info.name}
+                          </Anchor>
+                          {jdx !== item.linkList.length - 1 && (
+                            <Text size="sm" c="dimmed" px="2px">
+                              |
+                            </Text>
+                          )}
+                        </Flex>
+                      );
+                    })}
+                </Flex>
 
-            <Space h="md" />
+                <Space h="md" />
 
-            <Button color="blue" fullWidth mt="md" radius="md" onClick={() => navigate('/comfyui')}>
-              进入魔法世界
-            </Button>
-          </Card>
-        </Grid.Col>
-      </Grid>
+                {item?.buttonText && (
+                  <Button color="blue" fullWidth mt="md" radius="md" onClick={() => handleNavigate(item)}>
+                    {item.buttonText}
+                  </Button>
+                )}
+              </Card>
+            );
+          })}
+      </SimpleGrid>
     </div>
   );
 }

@@ -57,15 +57,21 @@ export default function PluginList() {
                 </Text>
                 <Space h="md" />
                 <Flex>
-                  <Anchor size="sm" href={item.github} target="_blank">
-                    Github
-                  </Anchor>
-                  <Text size="sm" c="dimmed" px="2px">
-                    |
-                  </Text>
-                  <Anchor size="sm" href={item.git_cn_preview} target="_blank">
-                    国内镜像
-                  </Anchor>
+                  {item?.linkList &&
+                    item.linkList.map((info, jdx) => {
+                      return (
+                        <Flex key={jdx}>
+                          <Anchor size="sm" href={info.link} target="_blank">
+                            {info.name}
+                          </Anchor>
+                          {jdx !== item.linkList.length - 1 && (
+                            <Text size="sm" c="dimmed" px="2px">
+                              |
+                            </Text>
+                          )}
+                        </Flex>
+                      );
+                    })}
                 </Flex>
                 <Space h="md" />
                 <PluginAction item={item} />

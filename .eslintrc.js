@@ -18,6 +18,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     'import/prefer-default-export': 'off',
     'react/prop-types': 'off',
+    'react/no-array-index-key': 'off',
   },
   parserOptions: {
     ecmaVersion: 2022,
