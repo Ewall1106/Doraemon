@@ -10,8 +10,8 @@ export default function Home() {
   const setComfyInfo = useComfyStore((state) => state.setInfo);
 
   const handleNavigate = (item) => {
+    // 非通用项目
     if (item.route === '/comfyui') {
-      // 非通用
       setComfyInfo(item);
     }
 
