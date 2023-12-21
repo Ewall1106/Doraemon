@@ -1,3 +1,4 @@
+export * from './app';
 export * from './shell';
 export * from './download';
 export * from './store';

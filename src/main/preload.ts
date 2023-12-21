@@ -11,6 +11,7 @@ export type Channels =
   | 'fs.remove'
   | 'fs.ensureDir'
   | 'fs.pathExists'
+  | 'app.getVersion'
   | 'shell.execute'
   | 'process.platform'
   | 'dialog.openDirectory'

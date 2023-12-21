@@ -105,7 +105,7 @@ export default function PluginAction({ item }) {
     <>
       {contextHolder}
 
-      <Drawer opened={opened} onClose={close} position="top" title="请将模型按需下载到指定位置：" size="sm">
+      <Drawer opened={opened} onClose={close} position="top" title="请按需将模型下载到指定位置：" size="sm">
         <PluginModel item={item} />
       </Drawer>
 

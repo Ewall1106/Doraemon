@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "engineVersion": "1.0.0",
+  "mainVersion": "1.0.0",
   "appList": [
     {
       "name": "ComfyUI启动器",
@@ -49,22 +49,6 @@
         }
       ],
       "pluginList": [
-        {
-          "name": "ComfyUI-Manager",
-          "github": "https://github.com/ltdrdata/ComfyUI-Manager.git",
-          "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI-Manager.git",
-          "linkList": [
-            {
-              "name": "Github",
-              "link": "https://github.com/ltdrdata/ComfyUI-Manager.git"
-            },
-            {
-              "name": "国内镜像",
-              "link": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-Manager/git/files"
-            }
-          ],
-          "modelList": []
-        },
         {
           "name": "ComfyUI-AnimateDiff-Evolved",
           "github": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved.git",
@@ -283,7 +267,7 @@
     },
     {
       "name": "更多项目接入中...",
-      "logo": "https://avatars.githubusercontent.com/u/121283862?v=4",
+      "logo": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=doraemon/icon.png",
       "brief": "欢迎提出你的意见 && 共同进行开源建设",
       "buttonText": "",
       "route": "/comfyui",
