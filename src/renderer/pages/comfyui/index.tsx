@@ -113,39 +113,6 @@ export default function ComfyUI() {
     <div className={styles.comfyui}>
       {contextHolder}
 
-      <Modal opened={opened} onClose={close} title="提示">
-        <List
-          spacing="xs"
-          size="sm"
-          center
-          icon={
-            <ThemeIcon color="teal" size={20} radius="xl">
-              <IconCircleCheck style={{ width: rem(12), height: rem(12) }} />
-            </ThemeIcon>
-          }
-        >
-          <List.Item>请确保该安装目录磁盘有5G左右容量空间</List.Item>
-          <List.Item>安装过程可能需要5-10分钟，请勿关机或息屏</List.Item>
-          <List.Item>安装过程如果由于网络波动问题导致安装失败，删除整个文件夹后重装即可</List.Item>
-          <List.Item>看看下面的安装操作视频流程吧</List.Item>
-        </List>
-
-        <iframe
-          title="1231"
-          style={{ border: 'none', marginTop: 15 }}
-          width="100%"
-          src="//player.bilibili.com/player.html?aid=367052086&bvid=BV1h94y1P7df&cid=1361008212&p=1&autoplay=0"
-        />
-
-        <Flex justify="flex-end" mt="md">
-          <Button variant="default" onClick={close}>
-            取消
-          </Button>
-          <Space w="xs" />
-          <Button onClick={handleInstall}>确认安装</Button>
-        </Flex>
-      </Modal>
-
       <div className={styles.header}>
         <Button leftSection={<IconArrowLeft size={14} />} variant="default" onClick={() => navigate('/')}>
           返回
@@ -195,6 +162,39 @@ export default function ComfyUI() {
 
       <PluginList />
       <Space h="sm" />
+
+      <Modal opened={opened} onClose={close} title="提示">
+        <List
+          spacing="xs"
+          size="sm"
+          center
+          icon={
+            <ThemeIcon color="teal" size={20} radius="xl">
+              <IconCircleCheck style={{ width: rem(12), height: rem(12) }} />
+            </ThemeIcon>
+          }
+        >
+          <List.Item>请确保该安装目录磁盘有5G左右容量空间</List.Item>
+          <List.Item>安装过程可能需要5-10分钟，请勿关机或息屏</List.Item>
+          <List.Item>安装过程如果由于网络波动问题导致安装失败，删除整个文件夹后重装即可</List.Item>
+          <List.Item>看看下面的安装操作视频流程吧</List.Item>
+        </List>
+
+        <iframe
+          title="1231"
+          style={{ border: 'none', marginTop: 15 }}
+          width="100%"
+          src="//player.bilibili.com/player.html?aid=367052086&bvid=BV1h94y1P7df&cid=1361008212&p=1&autoplay=0"
+        />
+
+        <Flex justify="flex-end" mt="md">
+          <Button variant="default" onClick={close}>
+            取消
+          </Button>
+          <Space w="xs" />
+          <Button onClick={handleInstall}>确认安装</Button>
+        </Flex>
+      </Modal>
     </div>
   );
 }
