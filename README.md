@@ -15,7 +15,7 @@
   </a>
 </p>
 
-`Doraemon` 目标是打造一个AI百宝箱，帮助你在电脑上上快速的启动一个AI应用，免去各种环境配置的烦恼。
+`Doraemon` 目标是打造一个AI百宝箱，帮助你在电脑上上快速的启动各种AI应用，免去各种环境配置的烦恼。
 
 ### 优点
 
@@ -32,7 +32,7 @@ $ npm run start
 $ npm run package
 ```
 
-### Star History
+### 
 
 <a href="https://star-history.com/#Ewall1106/Doraemon&Date">
   <picture>
