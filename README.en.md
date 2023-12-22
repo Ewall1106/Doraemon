@@ -32,7 +32,7 @@ $ npm run start
 $ npm run package
 ```
 
-## Star History
+### Star History
 
 <a href="https://star-history.com/#Ewall1106/Doraemon&Date">
   <picture>
