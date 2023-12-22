@@ -4,7 +4,7 @@
 
 [English](https://github.com/Ewall1106/Doraemon/blob/main/README.en.md) | [简体中文](https://github.com/Ewall1106/Doraemon/blob/main/README.md)
 
-**哆啦A梦のAI百宝箱**
+**DoraemonのAI-Pocket**
 
 <p>
   <a>
@@ -15,16 +15,16 @@
   </a>
 </p>
 
-`Doraemon` 目标是打造一个AI百宝箱，帮助你在电脑上上快速的启动一个AI应用，免去各种环境配置的烦恼。
+`Doraemon`'s goal is to create an AI Pocket to help you quickly launch an AI application on your computer without the hassle of configuring various environments.
 
-### 优点
+### Vantage
 
-- 安全-代码全部透明开源
-- 轻量-安装包体积轻量可控
-- 极速-使用国内镜像源解决网络缓慢问题
-- 干净-每个项目独立环境安装，不会污染系统环境
+- Secure - code all transparent open source
+- Lightweight - the size of the installation package is light and controllable
+- Extremely fast - the use of domestic mirror source to solve the slow network problem
+- Clean - each project independent environment installation, will not pollute the system environment
 
-### 开发
+### Develop
 
 ```bash
 $ npm i
