@@ -15,7 +15,7 @@
   </a>
 </p>
 
-`Doraemon`'s goal is to create an AI Pocket to help you quickly launch an AI application on your computer without the hassle of configuring various environments.
+The goal of `Doraemon` is to create an AI treasure pocket to help you quickly launch various AI applications on your computer, eliminating the hassle of configuring various environments, and using AI in a better and more efficient way!
 
 ### Vantage
 
