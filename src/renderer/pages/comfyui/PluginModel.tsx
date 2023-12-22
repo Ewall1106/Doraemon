@@ -42,6 +42,10 @@ export function ModelDownlod({ item }) {
     setDeleteLoading(false);
   };
 
+  const handleDownload = () => {
+    ipcRenderer.invoke('fs.ensureDir', { path: targetInstallDir });
+  };
+
   return (
     <div key={item.name}>
       {contextHolder}
@@ -66,7 +70,14 @@ export function ModelDownlod({ item }) {
           {pathExist && <Text size="xs">已存在</Text>}
           <Space w="md" />
           {!pathExist && (
-            <Button size="xs" leftSection={<IconDownload size={14} />} component="a" target="_blank" href={item.url}>
+            <Button
+              onClick={handleDownload}
+              size="xs"
+              leftSection={<IconDownload size={14} />}
+              component="a"
+              target="_blank"
+              href={item.url}
+            >
               下载
             </Button>
           )}
