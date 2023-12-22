@@ -27,7 +27,7 @@ export default class Application {
     shellInit();
     requestInit();
     processInit();
-    downloadInit();
     dialogInit({ mainWindow: this.mainWindow });
+    downloadInit({ mainWindow: this.mainWindow });
   }
 }

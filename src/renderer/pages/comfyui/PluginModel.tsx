@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Button, Flex, Space, Card, Text, Divider, CopyButton } from '@mantine/core';
 import { IconDownload, IconExternalLink, IconX } from '@tabler/icons-react';
-import { message, Popconfirm } from 'antd';
+import { useId } from '@mantine/hooks';
+import { message, Popconfirm, Progress } from 'antd';
 import { useComfyStore } from '@/store';
 
 const { ipcRenderer } = window.electron;
 
-export function ModelDownlod({ item }) {
+export function ModelItem({ item }) {
+  const downloadId = useId();
+  const [percent, setPercent] = useState(0);
   const [pathExist, setPathExist] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+
   const installPath = useComfyStore((state) => state.installPath);
+  const downloading = useComfyStore((state) => state.downloading);
+  const setDownloading = useComfyStore((state) => state.setDownloading);
+
   const [messageApi, contextHolder] = message.useMessage();
 
   const targetInstallDir = `${installPath}/comfyui-portable/${item.targetInstallPath}`;
@@ -26,8 +33,8 @@ export function ModelDownlod({ item }) {
 
   const handleDelete = async () => {
     try {
-      setDeleteLoading(true);
       await ipcRenderer.invoke('fs.remove', { path: targetInstallPath });
+      setPercent(0);
       setPathExist(false);
       messageApi.open({
         type: 'success',
@@ -42,8 +49,40 @@ export function ModelDownlod({ item }) {
     setDeleteLoading(false);
   };
 
-  const handleDownload = () => {
-    ipcRenderer.invoke('fs.ensureDir', { path: targetInstallDir });
+  const handleDownload = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    await ipcRenderer.invoke('fs.ensureDir', { path: targetInstallDir });
+    await ipcRenderer.sendMessage('download.start', { directory: targetInstallDir, url: item.url, downloadId });
+
+    ipcRenderer.on('download.progress', (res: any) => {
+      if (res?.downloadId !== downloadId) return;
+      setPercent(Number((res.progress.percent * 100).toFixed(2)));
+    });
+
+    ipcRenderer.once('download.completed', (res: any) => {
+      if (res?.downloadId !== downloadId) return;
+      setPathExist(true);
+    });
+
+    ipcRenderer.once('download.error', (res: any) => {
+      if (res?.downloadId !== downloadId) return;
+      console.log('download.error', downloadId);
+      setDownloading(false);
+    });
+  };
+
+  const handleCancel = async () => {
+    try {
+      await ipcRenderer.invoke('download.cancel', { downloadId });
+      setPercent(0);
+      messageApi.open({
+        type: 'success',
+        content: '取消成功',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -60,59 +99,87 @@ export function ModelDownlod({ item }) {
             <Text size="sm" fw="bold" style={{ flexShrink: 0 }}>
               下载位置：
             </Text>
-            <Text size="xs" lineClamp={1} style={{ flexShrink: 1 }}>
+            <Text size="xs" lineClamp={2} style={{ flexShrink: 1 }}>
               {`${targetInstallDir}`}
             </Text>
           </Flex>
         </Flex>
 
-        <Flex align="center" style={{ flexShrink: 0 }}>
-          {pathExist && <Text size="xs">已存在</Text>}
-          <Space w="md" />
-          {!pathExist && (
-            <Button
-              onClick={handleDownload}
-              size="xs"
-              leftSection={<IconDownload size={14} />}
-              component="a"
-              target="_blank"
-              href={item.url}
-            >
-              下载
-            </Button>
-          )}
-          {pathExist && (
-            <Popconfirm
-              title="提示"
-              description="确认删除该模型吗？"
-              okText="确认"
-              cancelText="取消"
-              onConfirm={handleDelete}
-            >
-              <Button size="xs" loading={deleteLoading} leftSection={<IconX size={14} />} variant="outline" color="red">
-                删除
-              </Button>
-            </Popconfirm>
-          )}
-          <Space w="2" />
-          <Button
-            size="xs"
-            leftSection={<IconExternalLink size={14} />}
-            variant="default"
-            component="a"
-            target="_blank"
-            href={item.source}
-          >
-            来源
-          </Button>
-          <Space w="2" />
-          <CopyButton value={targetInstallDir}>
-            {({ copied, copy }) => (
-              <Button size="xs" color={copied ? 'teal' : 'blue'} variant="outline" onClick={copy}>
-                {copied ? '复制成功' : '复制路径'}
+        <Flex direction="column" justify="center" style={{ flexShrink: 0 }}>
+          <Flex align="center">
+            {pathExist && (
+              <Text size="xs" lineClamp={1}>
+                已存在
+              </Text>
+            )}
+            <Space w="md" />
+            {!pathExist && !percent && (
+              <Button
+                onClick={handleDownload}
+                disabled={downloading}
+                size="xs"
+                leftSection={<IconDownload size={14} />}
+              >
+                下载
               </Button>
             )}
-          </CopyButton>
+            {!!percent && (
+              <Button onClick={handleCancel} variant="outline" color="red" size="xs" leftSection={<IconX size={14} />}>
+                取消
+              </Button>
+            )}
+            {pathExist && (
+              <Popconfirm
+                title="提示"
+                description="确认删除该模型吗？"
+                okText="确认"
+                cancelText="取消"
+                onConfirm={handleDelete}
+              >
+                <Button
+                  size="xs"
+                  loading={deleteLoading}
+                  leftSection={<IconX size={14} />}
+                  variant="outline"
+                  color="red"
+                >
+                  删除
+                </Button>
+              </Popconfirm>
+            )}
+            <Space w="2" />
+            <CopyButton value={targetInstallDir}>
+              {({ copied, copy }) => (
+                <Button size="xs" color={copied ? 'teal' : 'blue'} variant="outline" onClick={copy}>
+                  {copied ? '复制成功' : '复制路径'}
+                </Button>
+              )}
+            </CopyButton>
+            <Space w="2" />
+            <Button size="xs" variant="default" component="a" target="_blank" href={item.url}>
+              浏览器打开
+            </Button>
+            <Space w="2" />
+            <Button
+              size="xs"
+              leftSection={<IconExternalLink size={14} />}
+              variant="default"
+              component="a"
+              target="_blank"
+              href={item.source}
+            >
+              来源
+            </Button>
+          </Flex>
+          {!!percent && (
+            <>
+              <Space h="sm" />
+              <Flex>
+                <Space w="lg" />
+                <Progress percent={percent} status="active" />
+              </Flex>
+            </>
+          )}
         </Flex>
       </Flex>
 
@@ -126,7 +193,7 @@ export default function PluginModel({ item }) {
     <Card shadow="none" m="md" padding="lg" radius="md">
       {item?.modelList &&
         item.modelList.map((model) => {
-          return <ModelDownlod item={model} key={model.name} />;
+          return <ModelItem item={model} key={model.name} />;
         })}
     </Card>
   );

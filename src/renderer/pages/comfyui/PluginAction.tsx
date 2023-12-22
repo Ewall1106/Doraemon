@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Flex, Space, Drawer } from '@mantine/core';
 import { IconDownload, IconRefresh, IconX } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
-import { message, Popconfirm } from 'antd';
+import { message, Popconfirm, Modal } from 'antd';
 import gitUrlParse from 'git-url-parse';
 import { useComfyStore } from '@/store';
 import PluginModel from './PluginModel';
@@ -16,6 +16,7 @@ export default function PluginAction({ item }) {
   const [installLoading, setInstallLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const installPath = useComfyStore((state) => state.installPath);
+  const [modal, contextModalHolder] = Modal.useModal();
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
@@ -101,13 +102,23 @@ export default function PluginAction({ item }) {
     setDeleteLoading(false);
   };
 
+  const handleClose = () => {
+    modal.confirm({
+      title: '提示',
+      content: '退出将取消正在下载中的模型',
+      okText: '确认退出',
+      cancelText: '取消',
+      onOk: () => {
+        ipcRenderer.invoke('download.cancelAll');
+        close();
+      },
+    });
+  };
+
   return (
     <>
       {contextHolder}
-
-      <Drawer opened={opened} onClose={close} position="top" title="请按需将模型下载到指定位置：" size="sm">
-        <PluginModel item={item} />
-      </Drawer>
+      {contextModalHolder}
 
       <Flex>
         {pathExist ? (
@@ -163,6 +174,17 @@ export default function PluginAction({ item }) {
           </>
         )}
       </Flex>
+
+      <Drawer
+        opened={opened}
+        onClose={handleClose}
+        closeOnClickOutside={false}
+        position="top"
+        title="模型下载"
+        size="sm"
+      >
+        <PluginModel item={item} />
+      </Drawer>
     </>
   );
 }

@@ -2,6 +2,7 @@ import { ipcMain } from 'electron';
 import fs from 'node:fs';
 import axios from 'axios';
 import { throttle } from 'lodash';
+import { download } from 'electron-dl';
 
 type ListProp = {
   url: string;
@@ -10,8 +11,68 @@ type ListProp = {
 
 type fileListProp = Array<ListProp>;
 
-export const downloadInit = () => {
-  ipcMain.handle('download.fileList', async (event, dirPath, fileList: fileListProp) => {
+const downloadTasks: any = new Map();
+
+export const downloadInit = ({ mainWindow }) => {
+  ipcMain.on('download.start', (event, { directory, url, downloadId }) => {
+    if (downloadTasks.get(downloadId)) return;
+
+    mainWindow.webContents.session.on('will-download', (_event, item) => {
+      item.setSavePath(directory);
+      downloadTasks.set(downloadId, item);
+    });
+
+    const throttledReply = throttle((args) => {
+      event.reply('download.progress', args);
+    }, 500);
+
+    const downloadItem = download(mainWindow, url, {
+      directory,
+      onProgress: (progress) => {
+        throttledReply({ progress, url, downloadId });
+      },
+    });
+
+    downloadItem
+      .then((dl) => {
+        console.log('completed', dl);
+        downloadTasks.delete(downloadId);
+        event.reply('download.completed', { downloadId });
+      })
+      .catch((error) => {
+        downloadTasks.delete(downloadId);
+        event.reply('download.error', { downloadId, error });
+      });
+  });
+
+  ipcMain.handle('download.pause', async (_event, { downloadId }) => {
+    const item = downloadTasks.get(downloadId);
+    if (item) {
+      item.pause();
+    }
+  });
+
+  ipcMain.handle('download.resume', async (_event, { downloadId }) => {
+    const item = downloadTasks.get(downloadId);
+    if (item) {
+      item.resume();
+    }
+  });
+
+  ipcMain.handle('download.cancel', (_event, { downloadId }) => {
+    const item = downloadTasks.get(downloadId);
+    if (item) {
+      item.cancel();
+    }
+  });
+
+  ipcMain.handle('download.cancelAll', () => {
+    [...downloadTasks.values()].forEach((item) => {
+      item.cancel();
+    });
+  });
+
+  ipcMain.handle('download.fileList', async (_event, dirPath, fileList: fileListProp) => {
     const pendingList = [];
     fileList.forEach((file) => {
       pendingList.push(

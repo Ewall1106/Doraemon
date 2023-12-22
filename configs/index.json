@@ -4,7 +4,7 @@
   "appList": [
     {
       "name": "ComfyUI启动器",
-      "logo": "https://avatars.githubusercontent.com/u/121283862?v=4",
+      "logo": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=doraemon/icon_comfyui.png",
       "brief": "AI绘画、Stablediffusion GUI操作界面",
       "buttonText": "进入魔法世界",
       "route": "/comfyui",
