@@ -163,6 +163,22 @@
               "link": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-VideoHelperSuite/git/files"
             }
           ],
+          "modelList": []
+        },
+        {
+          "name": "comfyui_controlnet_aux",
+          "github": "https://github.com/Fannovel16/comfyui_controlnet_aux.git",
+          "git_cn": "https://e.coding.net/g-xeps0419/doraemon/comfyui_controlnet_aux.git",
+          "linkList": [
+            {
+              "name": "Github",
+              "link": "https://github.com/Fannovel16/comfyui_controlnet_aux.git"
+            },
+            {
+              "name": "国内镜像",
+              "link": "https://g-xeps0419.coding.net/public/doraemon/comfyui_controlnet_aux/git/files"
+            }
+          ],
           "modelList": [
             {
               "name": "yolox_l.onnx",
@@ -315,22 +331,6 @@
               "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/skytnt/anime-seg/isnetis.ckpt"
             }
           ]
-        },
-        {
-          "name": "comfyui_controlnet_aux",
-          "github": "https://github.com/Fannovel16/comfyui_controlnet_aux.git",
-          "git_cn": "https://e.coding.net/g-xeps0419/doraemon/comfyui_controlnet_aux.git",
-          "linkList": [
-            {
-              "name": "Github",
-              "link": "https://github.com/Fannovel16/comfyui_controlnet_aux.git"
-            },
-            {
-              "name": "国内镜像",
-              "link": "https://g-xeps0419.coding.net/public/doraemon/comfyui_controlnet_aux/git/files"
-            }
-          ],
-          "modelList": []
         },
         {
           "name": "ComfyUI-Advanced-ControlNet",
