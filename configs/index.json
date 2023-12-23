@@ -163,7 +163,158 @@
               "link": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI-VideoHelperSuite/git/files"
             }
           ],
-          "modelList": []
+          "modelList": [
+            {
+              "name": "yolox_l.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yzd-v/DWPose",
+              "source": "https://huggingface.co/yzd-v",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/yzd-v/DWPose/yolox_l.onnx"
+            },
+            {
+              "name": "dw-ll_ucoco_384.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yzd-v/DWPose",
+              "source": "https://huggingface.co/yzd-v",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/yzd-v/DWPose/dw-ll_ucoco_384.onnx"
+            },
+            {
+              "name": "ControlNetHED.pth",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+              "source": "https://huggingface.co/lllyasviel/Annotators",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/ControlNetHED.pth"
+            },
+            {
+              "name": "mlsd_large_512_fp32.pth",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+              "source": "https://huggingface.co/lllyasviel/Annotators",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/mlsd_large_512_fp32.pth"
+            },
+            {
+              "name": "netG.pth",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+              "source": "https://huggingface.co/lllyasviel/Annotators",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/netG.pth"
+            },
+            {
+              "name": "sk_model.pth",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+              "source": "https://huggingface.co/lllyasviel/Annotators",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/sk_model.pth"
+            },
+            {
+              "name": "sk_model2.pth",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+              "source": "https://huggingface.co/lllyasviel/Annotators",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/sk_model2.pth"
+            },
+            {
+              "name": "ZoeD_M12_N.pt",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/lllyasviel/Annotators",
+              "source": "https://huggingface.co/lllyasviel/Annotators",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/lllyasviel/Annotators/ZoeD_M12_N.pt"
+            },
+            {
+              "name": "UNet.pth",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/bdsqlsz/qinglong_controlnet-lllite/Annotators",
+              "source": "https://huggingface.co/bdsqlsz/qinglong_controlnet-lllite/tree/main",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/bdsqlsz/qinglong_controlnet-lllite/Annotators/UNet.pth"
+            },
+            {
+              "name": "dw-ll_ucoco_384_bs5.torchscript.pt",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/DWPose-TorchScript-BatchSize5",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/DWPose-TorchScript-BatchSize5/dw-ll_ucoco_384_bs5.torchscript.pt"
+            },
+            {
+              "name": "dw-ll_ucoco.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose/dw-ll_ucoco.onnx"
+            },
+            {
+              "name": "dw-mm_ucoco.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose/dw-mm_ucoco.onnx"
+            },
+            {
+              "name": "dw-ss_ucoco.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose/dw-ss_ucoco.onnx"
+            },
+            {
+              "name": "rtmpose-m_ap10k_256.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/UnJIT-DWPose/rtmpose-m_ap10k_256.onnx"
+            },
+            {
+              "name": "yolo_nas_l_fp16.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/yolo-nas-fp16",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolo-nas-fp16/yolo_nas_l_fp16.onnx"
+            },
+            {
+              "name": "yolo_nas_m_fp16.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/yolo-nas-fp16",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolo-nas-fp16/yolo_nas_m_fp16.onnx"
+            },
+            {
+              "name": "yolo_nas_s_fp16.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/yolo-nas-fp16",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolo-nas-fp16/yolo_nas_s_fp16.onnx"
+            },
+            {
+              "name": "yolox_l.torchscript.pt",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/yolox-onnx",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolox-onnx/yolox_l.torchscript.pt"
+            },
+            {
+              "name": "yolox_m.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yolox-onnx",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolox-onnx/yolox_m.onnx"
+            },
+            {
+              "name": "yolox_m.torchscript.pt",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yolox-onnx",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolox-onnx/yolox_m.torchscript.pt"
+            },
+            {
+              "name": "yolox_s.onnx",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yolox-onnx",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolox-onnx/yolox_s.onnx"
+            },
+            {
+              "name": "yolox_s.torchscript.pt",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yolox-onnx",
+              "source": "https://huggingface.co/hr16",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/hr16/yolox-onnx/yolox_s.torchscript.pt"
+            },
+            {
+              "name": "densepose_r50_fpn_dl.torchscript",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/LayerNorm/DensePose-TorchScript-with-hint-image",
+              "source": "https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/tree/main",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/LayerNorm/DensePose-TorchScript-with-hint-image/densepose_r50_fpn_dl.torchscript"
+            },
+            {
+              "name": "densepose_r101_fpn_dl.torchscript",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/LayerNorm/DensePose-TorchScript-with-hint-image",
+              "source": "https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/tree/main",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/LayerNorm/DensePose-TorchScript-with-hint-image/densepose_r101_fpn_dl.torchscript"
+            },
+            {
+              "name": "isnetis.ckpt",
+              "targetInstallPath": "ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/skytnt/anime-seg",
+              "source": "https://huggingface.co/skytnt",
+              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=comfyui_controlnet_aux/ckpts/skytnt/anime-seg/isnetis.ckpt"
+            }
+          ]
         },
         {
           "name": "comfyui_controlnet_aux",
