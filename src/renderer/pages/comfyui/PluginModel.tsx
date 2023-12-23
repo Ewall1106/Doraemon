@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Button, Flex, Space, Card, Text, Divider, CopyButton } from '@mantine/core';
-import { IconDownload, IconExternalLink, IconX } from '@tabler/icons-react';
+import { Button, Flex, Space, Card, Text, Divider, CopyButton, Drawer, TextInput, rem } from '@mantine/core';
+import { IconDownload, IconExternalLink, IconX, IconSearch } from '@tabler/icons-react';
 import { useId } from '@mantine/hooks';
 import { message, Popconfirm, Progress } from 'antd';
 import { useComfyStore } from '@/store';
@@ -124,9 +124,17 @@ export function ModelItem({ item }) {
               </Button>
             )}
             {!!percent && (
-              <Button onClick={handleCancel} variant="outline" color="red" size="xs" leftSection={<IconX size={14} />}>
-                取消
-              </Button>
+              <Popconfirm
+                title="提示"
+                description="确认取消下载吗？"
+                okText="确认"
+                cancelText="取消"
+                onConfirm={handleCancel}
+              >
+                <Button variant="outline" color="red" size="xs" leftSection={<IconX size={14} />}>
+                  取消
+                </Button>
+              </Popconfirm>
             )}
             {pathExist && (
               <Popconfirm
@@ -188,13 +196,43 @@ export function ModelItem({ item }) {
   );
 }
 
-export default function PluginModel({ item }) {
+export default function PluginModel({ item, opened, onClose }) {
+  const [value, setValue] = useState('');
+  const [modelList, setModelList] = useState(() => item?.modelList || []);
+
+  const handleSearch = (event) => {
+    const search = event.currentTarget.value;
+    setValue(search);
+    if (search === '') {
+      setModelList(item?.modelList || []);
+      return;
+    }
+    const newModelList = modelList.filter((data) => !search || data.name.toLowerCase().includes(search.toLowerCase()));
+    setModelList(newModelList);
+  };
+
   return (
-    <Card shadow="none" m="md" padding="lg" radius="md">
-      {item?.modelList &&
-        item.modelList.map((model) => {
+    <Drawer opened={opened} onClose={onClose} closeOnClickOutside={false} position="top" title="模型下载" size="sm">
+      <Card shadow="none" radius="md">
+        <TextInput
+          value={value}
+          onChange={(event) => handleSearch(event)}
+          leftSectionPointerEvents="none"
+          leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} />}
+          label=""
+          placeholder="搜索模型名称"
+        />
+        <Space h="lg" />
+        {modelList.map((model) => {
           return <ModelItem item={model} key={model.name} />;
         })}
-    </Card>
+
+        {!modelList?.length && (
+          <Text fw="bold" size="xs">
+            来到了一片无人的区域....
+          </Text>
+        )}
+      </Card>
+    </Drawer>
   );
 }

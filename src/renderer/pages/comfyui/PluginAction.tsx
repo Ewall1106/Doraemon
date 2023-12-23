@@ -102,10 +102,10 @@ export default function PluginAction({ item }) {
     setDeleteLoading(false);
   };
 
-  const handleClose = () => {
+  const onClose = () => {
     modal.confirm({
       title: '提示',
-      content: '退出将取消正在下载中的模型',
+      content: '如果有模型正在下载，退出将全部将取消',
       okText: '确认退出',
       cancelText: '取消',
       onOk: () => {
@@ -175,16 +175,7 @@ export default function PluginAction({ item }) {
         )}
       </Flex>
 
-      <Drawer
-        opened={opened}
-        onClose={handleClose}
-        closeOnClickOutside={false}
-        position="top"
-        title="模型下载"
-        size="sm"
-      >
-        <PluginModel item={item} />
-      </Drawer>
+      <PluginModel item={item} opened={opened} onClose={onClose} />
     </>
   );
 }
