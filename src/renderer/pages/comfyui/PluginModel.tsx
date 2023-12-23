@@ -63,6 +63,8 @@ export function ModelItem({ item }) {
     ipcRenderer.on('download.completed', ({ downloadId: _downloadId }) => {
       if (_downloadId !== downloadId) return;
       setPathExist(true);
+      setPercent(100);
+      setDownloading(false);
     });
 
     ipcRenderer.on('download.error', ({ downloadId: _downloadId }) => {
