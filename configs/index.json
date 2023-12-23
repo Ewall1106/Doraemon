@@ -92,7 +92,7 @@
               "name": "animatediffMotion_v15V2.ckpt",
               "targetInstallPath": "ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
               "source": "https://civitai.com/models/108836/animatediff-motion-modules",
-              "url": "https://modelscope.cn/api/v1/models/zhuzhukeji/annotators/repo?Revision=master&FilePath=checkpoints/temporaldiff-v1-animatediff.ckpt"
+              "url": "https://bj.bcebos.com/v1/ai-studio-online/netdisk/d6a3d84cb8874ed7a542b45908dc480d9a07fa2a5f4d4532946d73e101e963a8?responseContentDisposition=attachment%3B%20filename%3DanimatediffMotion_v15V2.ckpt"
             }
           ]
         },

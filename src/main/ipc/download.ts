@@ -2,7 +2,7 @@ import { ipcMain } from 'electron';
 import fs from 'node:fs';
 import axios from 'axios';
 import { throttle } from 'lodash';
-import { download } from 'electron-dl';
+import { download, CancelError } from 'electron-dl';
 
 type ListProp = {
   url: string;
@@ -11,64 +11,69 @@ type ListProp = {
 
 type fileListProp = Array<ListProp>;
 
-const downloadTasks: any = new Map();
+const downloadTasks = {};
 
 export const downloadInit = ({ mainWindow }) => {
   ipcMain.on('download.start', (event, { directory, url, downloadId }) => {
-    if (downloadTasks.get(downloadId)) return;
-
-    mainWindow.webContents.session.on('will-download', (_event, item) => {
-      item.setSavePath(directory);
-      downloadTasks.set(downloadId, item);
-    });
-
-    const throttledReply = throttle((args) => {
-      event.reply('download.progress', args);
-    }, 500);
-
-    const downloadItem = download(mainWindow, url, {
-      directory,
-      onProgress: (progress) => {
-        throttledReply({ progress, url, downloadId });
+    const throttledReply = throttle(
+      (args) => {
+        event.reply('download.progress', args);
       },
-    });
+      800,
+      { trailing: false },
+    );
 
-    downloadItem
-      .then((dl) => {
-        console.log('completed', dl);
-        downloadTasks.delete(downloadId);
+    download(mainWindow, url, {
+      directory,
+      onStarted: (item) => {
+        downloadTasks[downloadId] = item;
+      },
+      onProgress: (progress) => {
+        throttledReply({ ...progress, url, downloadId });
+      },
+    })
+      .then(() => {
+        delete downloadTasks[downloadId];
         event.reply('download.completed', { downloadId });
       })
-      .catch((error) => {
-        downloadTasks.delete(downloadId);
-        event.reply('download.error', { downloadId, error });
+      .catch((err) => {
+        if (err instanceof CancelError) {
+          event.reply('download.cancel', { downloadId });
+        } else {
+          console.error(err);
+          event.reply('download.error', { downloadId });
+        }
+
+        delete downloadTasks[downloadId];
       });
   });
 
   ipcMain.handle('download.pause', async (_event, { downloadId }) => {
-    const item = downloadTasks.get(downloadId);
+    const item = downloadTasks[downloadId];
     if (item) {
       item.pause();
     }
   });
 
   ipcMain.handle('download.resume', async (_event, { downloadId }) => {
-    const item = downloadTasks.get(downloadId);
+    const item = downloadTasks[downloadId];
     if (item) {
       item.resume();
     }
   });
 
-  ipcMain.handle('download.cancel', (_event, { downloadId }) => {
-    const item = downloadTasks.get(downloadId);
+  ipcMain.handle('download.cancel', async (_event, { downloadId }) => {
+    const item = downloadTasks[downloadId];
     if (item) {
       item.cancel();
     }
   });
 
   ipcMain.handle('download.cancelAll', () => {
-    [...downloadTasks.values()].forEach((item) => {
-      item.cancel();
+    // TODO: 多文件下载时downloadItem无法全部cancel成功
+    Object.keys(downloadTasks).forEach((key) => {
+      downloadTasks[key].cancel();
+      delete downloadTasks[key];
     });
   });
 

@@ -16,6 +16,7 @@ export default function PluginAction({ item }) {
   const [installLoading, setInstallLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const installPath = useComfyStore((state) => state.installPath);
+  const setDownloading = useComfyStore((state) => state.setDownloading);
   const [modal, contextModalHolder] = Modal.useModal();
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -111,6 +112,7 @@ export default function PluginAction({ item }) {
       onOk: () => {
         ipcRenderer.invoke('download.cancelAll');
         close();
+        setDownloading(false);
       },
     });
   };

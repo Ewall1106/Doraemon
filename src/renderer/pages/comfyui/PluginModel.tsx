@@ -55,18 +55,18 @@ export function ModelItem({ item }) {
     await ipcRenderer.invoke('fs.ensureDir', { path: targetInstallDir });
     await ipcRenderer.sendMessage('download.start', { directory: targetInstallDir, url: item.url, downloadId });
 
-    ipcRenderer.on('download.progress', (res: any) => {
-      if (res?.downloadId !== downloadId) return;
-      setPercent(Number((res.progress.percent * 100).toFixed(2)));
+    ipcRenderer.on('download.progress', ({ percent, downloadId: _downloadId }) => {
+      if (_downloadId !== downloadId) return;
+      setPercent(Number((percent * 100).toFixed(2)));
     });
 
-    ipcRenderer.on('download.completed', (res: any) => {
-      if (res?.downloadId !== downloadId) return;
+    ipcRenderer.on('download.completed', ({ downloadId: _downloadId }) => {
+      if (_downloadId !== downloadId) return;
       setPathExist(true);
     });
 
-    ipcRenderer.on('download.error', (res: any) => {
-      if (res?.downloadId !== downloadId) return;
+    ipcRenderer.on('download.error', ({ downloadId: _downloadId }) => {
+      if (_downloadId !== downloadId) return;
       console.log('download.error', downloadId);
       setPercent(0);
       setDownloading(false);
@@ -77,6 +77,7 @@ export function ModelItem({ item }) {
     try {
       await ipcRenderer.invoke('download.cancel', { downloadId });
       setPercent(0);
+      setDownloading(false);
       messageApi.open({
         type: 'success',
         content: '取消成功',
@@ -200,6 +201,7 @@ export function ModelItem({ item }) {
 export default function PluginModel({ item, opened, onClose }) {
   const [value, setValue] = useState('');
   const [modelList, setModelList] = useState(() => item?.modelList || []);
+  const downloading = useComfyStore((state) => state.downloading);
 
   const handleSearch = (event) => {
     const search = event.currentTarget.value;
@@ -218,6 +220,7 @@ export default function PluginModel({ item, opened, onClose }) {
         <TextInput
           value={value}
           onChange={(event) => handleSearch(event)}
+          disabled={downloading}
           leftSectionPointerEvents="none"
           leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} />}
           label=""
