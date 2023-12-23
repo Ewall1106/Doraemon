@@ -60,14 +60,15 @@ export function ModelItem({ item }) {
       setPercent(Number((res.progress.percent * 100).toFixed(2)));
     });
 
-    ipcRenderer.once('download.completed', (res: any) => {
+    ipcRenderer.on('download.completed', (res: any) => {
       if (res?.downloadId !== downloadId) return;
       setPathExist(true);
     });
 
-    ipcRenderer.once('download.error', (res: any) => {
+    ipcRenderer.on('download.error', (res: any) => {
       if (res?.downloadId !== downloadId) return;
       console.log('download.error', downloadId);
+      setPercent(0);
       setDownloading(false);
     });
   };
@@ -123,7 +124,7 @@ export function ModelItem({ item }) {
                 下载
               </Button>
             )}
-            {!!percent && (
+            {percent !== 0 && percent !== 100 && (
               <Popconfirm
                 title="提示"
                 description="确认取消下载吗？"
@@ -179,7 +180,7 @@ export function ModelItem({ item }) {
               来源
             </Button>
           </Flex>
-          {!!percent && (
+          {percent !== 0 && percent !== 100 && (
             <>
               <Space h="sm" />
               <Flex>

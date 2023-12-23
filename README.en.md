@@ -21,7 +21,8 @@ The goal of `Doraemon` is to create an AI treasure pocket to help you quickly la
 
 - Secure - code all transparent open source
 - Lightweight - the size of the installation package is light and controllable
-- Extremely fast - the use of domestic mirror source to solve the slow network problem
+- Original - original pulling of the official code
+- Fast - the use of domestic mirror source to solve the slow network problem
 - Clean - each project independent environment installation, will not pollute the system environment
 
 ### Develop
