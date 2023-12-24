@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Button, Flex, Space, Card, Text, Input, SegmentedControl, Modal, List, ThemeIcon, rem } from '@mantine/core';
 import { IconFile, IconArrowLeft, IconCircleCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { message } from 'antd';
+import { message, Modal as AntModal } from 'antd';
 import { useComfyStore } from '@/store';
 import PluginList from './PluginList';
 
@@ -17,10 +17,13 @@ export default function ComfyUI() {
   const [graphic, setGraphic] = useState('GPU');
   const [pathInputError, setPathInputError] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+
   const info = useComfyStore((state) => state.info);
   const installPath = useComfyStore((state) => state.installPath);
   const setInstallPath = useComfyStore((state) => state.setInstallPath);
+
   const [messageApi, contextHolder] = message.useMessage();
+  const [modal, contextModalHolder] = AntModal.useModal();
 
   const handleSelectPath = async () => {
     ipcRenderer.sendMessage('dialog.openDirectory');
@@ -49,19 +52,27 @@ export default function ComfyUI() {
       return;
     }
 
-    await ipcRenderer.invoke('download.fileList', path, info.scriptList);
+    modal.confirm({
+      title: '提示',
+      content: '更新操作将更新ComfyUI及依赖（更新过程使用国内镜像源，请勿开启"魔法"）',
+      okText: '确认更新',
+      cancelText: '取消',
+      onOk: async () => {
+        await ipcRenderer.invoke('download.fileList', path, info.scriptList);
 
-    const platform = await ipcRenderer.invoke('process.platform');
-    if (platform === 'darwin') {
-      ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_macos_update.sh`);
-    } else if (platform === 'win32') {
-      ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_update.bat`);
-    } else {
-      messageApi.open({
-        type: 'error',
-        content: '抱歉该系统环境暂未支持',
-      });
-    }
+        const platform = await ipcRenderer.invoke('process.platform');
+        if (platform === 'darwin') {
+          ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_macos_update.sh`);
+        } else if (platform === 'win32') {
+          ipcRenderer.sendMessage('shell.execute', `${path}/comfyui_windows_update.bat`);
+        } else {
+          messageApi.open({
+            type: 'error',
+            content: '抱歉该系统环境暂未支持',
+          });
+        }
+      },
+    });
   };
 
   const handleInstall = async () => {
@@ -112,6 +123,7 @@ export default function ComfyUI() {
   return (
     <div className={styles.comfyui}>
       {contextHolder}
+      {contextModalHolder}
 
       <div className={styles.header}>
         <Button leftSection={<IconArrowLeft size={14} />} variant="default" onClick={() => navigate('/')}>
