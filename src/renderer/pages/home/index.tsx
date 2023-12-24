@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Button, Flex, Space, Card, Anchor, Group, Text, Title, Avatar, SimpleGrid, Image } from '@mantine/core';
 import { IconBrandGithubFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
@@ -5,17 +6,28 @@ import { useAppStore, useComfyStore } from '@/store';
 import logo from '../../../../assets/icon.svg';
 import styles from './styles.module.scss';
 
+const { ipcRenderer } = window.electron;
+
 export default function Home() {
   const navigate = useNavigate();
+  const [version, setVersion] = useState('');
   const appInfo = useAppStore((state) => state.appInfo);
   const setComfyInfo = useComfyStore((state) => state.setInfo);
+
+  const init = async () => {
+    const res: { mainVersion?: string } = await ipcRenderer.invoke('app.getVersion');
+    setVersion(res?.mainVersion);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   const handleNavigate = (item) => {
     // 非通用项目
     if (item.route === '/comfyui') {
       setComfyInfo(item);
     }
-
     navigate(item.route);
   };
 
@@ -25,7 +37,12 @@ export default function Home() {
         <Flex align="center">
           <Image width={40} height={40} src={logo} alt="Doraemon" />
           <Space w="xs" />
-          <Title order={5}>AI百宝箱</Title>
+          <Flex align="flex-end">
+            <Title order={5}>AI百宝箱</Title>
+            <Text m="1px" size="xs">
+              v{version}
+            </Text>
+          </Flex>
         </Flex>
         <Button
           rightSection={<IconBrandGithubFilled />}
