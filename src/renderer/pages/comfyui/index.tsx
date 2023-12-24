@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { OpenDialogReturnValue } from 'electron';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useOs } from '@mantine/hooks';
 import { Button, Flex, Space, Card, Text, Input, SegmentedControl, Modal, List, ThemeIcon, rem } from '@mantine/core';
 import { IconFile, IconArrowLeft, IconCircleCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ import styles from './styles.module.scss';
 const { ipcRenderer } = window.electron;
 
 export default function ComfyUI() {
+  const os = useOs();
   const navigate = useNavigate();
   const [graphic, setGraphic] = useState('GPU');
   const [pathInputError, setPathInputError] = useState(false);
@@ -120,6 +121,10 @@ export default function ComfyUI() {
     }
   };
 
+  const getFullInstallPath = () => {
+    return os === 'windows' ? `${installPath}\\comfyui-portable` : `${installPath}/comfyui-portable`;
+  };
+
   return (
     <div className={styles.comfyui}>
       {contextHolder}
@@ -150,7 +155,7 @@ export default function ComfyUI() {
             size="xs"
             disabled
             placeholder="请选择安装地址"
-            value={installPath && `${installPath}/comfyui-portable`}
+            value={installPath && getFullInstallPath()}
             error={pathInputError}
           />
           <Space w="md" />
