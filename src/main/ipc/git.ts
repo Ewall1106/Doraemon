@@ -1,6 +1,9 @@
 import { ipcMain } from 'electron';
 import { simpleGit } from 'simple-git';
 import gitUrlParse from 'git-url-parse';
+import fs from 'node:fs';
+import git from 'isomorphic-git';
+import http from 'isomorphic-git/http/node';
 
 export const gitInit = () => {
   ipcMain.handle('git.urlParse', async (event, args) => {
@@ -12,10 +15,14 @@ export const gitInit = () => {
 
   ipcMain.handle('git.clone', async (event, args) => {
     const { repoURL, targetDirectory } = args;
-    const git = simpleGit();
+    // const git = simpleGit();
+
+    // const dir = path.join(process.cwd(), 'test-clone');
+    // .then(console.log);
 
     try {
-      await git.clone(repoURL, targetDirectory);
+      // await git.clone(repoURL, targetDirectory);
+      await git.clone({ fs, http, dir: targetDirectory, url: repoURL });
       console.log('Git clone successful');
     } catch (error) {
       console.error('Error during git clone:', error);
