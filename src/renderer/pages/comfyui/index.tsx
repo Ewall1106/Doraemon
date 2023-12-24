@@ -191,10 +191,11 @@ export default function ComfyUI() {
             </ThemeIcon>
           }
         >
-          <List.Item>请确保该安装目录磁盘有5G左右容量空间</List.Item>
+          <List.Item>安装过程使用国内源，请勿开启&quot;魔法&quot;</List.Item>
+          <List.Item>请确保该安装目录磁盘至少有5G左右空间</List.Item>
           <List.Item>安装过程可能需要5-10分钟，请勿关机或息屏</List.Item>
           <List.Item>安装过程如果由于网络波动问题导致安装失败，删除整个文件夹后重装即可</List.Item>
-          <List.Item>看看下面的安装操作视频流程吧</List.Item>
+          <List.Item>看看下面的安装操作视频流程吧~</List.Item>
         </List>
 
         <iframe

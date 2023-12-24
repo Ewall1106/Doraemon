@@ -90,7 +90,7 @@ def install_webui():
     install_git = "conda install -y -k ninja git"
     install_pytorch = "python -m pip install torch torchvision torchaudio"
     # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
-    install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
+    install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime onnxruntime-gpu imageio-ffmpeg numexpr pandas"
     install_conda_patch = 'conda install -y -k ffmpeg'
     # Set pip mirror to Tsinghua mirror
     set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
@@ -123,7 +123,7 @@ def update_requirements():
         
         set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
         # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
-        install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
+        install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime onnxruntime-gpu imageio-ffmpeg numexpr pandas"
         install_conda_patch = 'conda install -y -k ffmpeg'
         
         run_cmd(f"{set_pip_mirror} && {install_conda_patch} && {install_patch} && python -m pip install -r requirements.txt --upgrade", assert_success=True, environment=True)
@@ -139,13 +139,16 @@ def update_requirements():
 def launch_webui(cpu = False):
     os.chdir("ComfyUI")
     
+    # Set pip mirror to Tsinghua mirror
+    set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
+    
     if is_windows():
         if cpu: 
-            run_cmd(f"python main.py --cpu --auto-launch", environment=True)
+            run_cmd(f"{set_pip_mirror} && python main.py --cpu --auto-launch", environment=True)
         else: 
-            run_cmd(f"python main.py --auto-launch", environment=True)
+            run_cmd(f"{set_pip_mirror} && python main.py --auto-launch", environment=True)
     elif is_macos():
-        run_cmd(f"python main.py --force-fp16 --auto-launch", environment=True)
+        run_cmd(f"{set_pip_mirror} && python main.py --force-fp16 --auto-launch", environment=True)
 
 
 if __name__ == "__main__":
