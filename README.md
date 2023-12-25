@@ -13,7 +13,7 @@
   </a>
 </p>
 
-[English](https://github.com/Ewall1106/Doraemon/blob/main/README.en.md) | [简体中文](https://github.com/Ewall1106/Doraemon/blob/main/README.md) | [软件下载](https://zhuzhukeji.cn/doraemon) | [视频介绍]()
+[English](https://github.com/Ewall1106/Doraemon/blob/main/README.en.md) | [简体中文](https://github.com/Ewall1106/Doraemon/blob/main/README.md) | [软件下载](https://zhuzhukeji.cn/doraemon) | [视频介绍](https://www.bilibili.com/video/BV1Qc411C75W)
 
 `Doraemon` 目标是打造一个AI百宝箱，帮助你在电脑上快速的启动各种AI应用，免去各种环境配置的烦恼，更好、更高效率的使用AI。
 
