@@ -15,6 +15,8 @@
   </a>
 </p>
 
+[English](https://github.com/Ewall1106/Doraemon/blob/main/README.en.md) | [简体中文](https://github.com/Ewall1106/Doraemon/blob/main/README.md) | [Download](https://zhuzhukeji.cn/doraemon)
+
 The goal of `Doraemon` is to create an AI treasure pocket to help you quickly launch various AI applications on your computer, eliminating the hassle of configuring various environments, and using AI in a better and more efficient way!
 
 ### Vantage
