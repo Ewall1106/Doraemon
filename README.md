@@ -33,6 +33,10 @@ $ npm run start
 $ npm run package
 ```
 
+### 交流
+
+<img width="180" src="https://zhuzhukeji.cn/assets/qr-87b52d98.jpg">
+
 ###
 
 ###

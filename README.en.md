@@ -2,8 +2,6 @@
 
 <img src="./assets/icon.png" style="width: 50px; height:50px; margin: 0" />
 
-[English](https://github.com/Ewall1106/Doraemon/blob/main/README.en.md) | [简体中文](https://github.com/Ewall1106/Doraemon/blob/main/README.md)
-
 **DoraemonのAI-Pocket**
 
 <p>
