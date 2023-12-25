@@ -35,11 +35,11 @@ $ npm run package
 
 ### 交流
 
-<img width="180" src="https://zhuzhukeji.cn/assets/qr-87b52d98.jpg">
+<img width="180" src="./assets/qr.jpg">
 
 ###
 
-###
+### StarHistory
 
 <a href="https://star-history.com/#Ewall1106/Doraemon&Date">
   <picture>
