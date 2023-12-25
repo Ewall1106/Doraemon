@@ -1,1 +1,1 @@
-export const requestConfigUrl = 'https://gitee.com/zhuzhukeji/annotators/raw/master/configs/index.json';
+export const requestConfigUrl = 'https://gitee.com/zhuzhukeji/Doraemon/raw/main/configs/index.json';
