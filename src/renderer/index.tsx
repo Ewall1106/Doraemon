@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
 import { MantineProvider, createTheme } from '@mantine/core';
-import App from './pages/app';
+import router from './routes';
 
 import './index.css';
 import '@mantine/core/styles.css';
@@ -13,6 +14,6 @@ const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 root.render(
   <MantineProvider theme={theme}>
-    <App />
+    <RouterProvider router={router} />
   </MantineProvider>,
 );

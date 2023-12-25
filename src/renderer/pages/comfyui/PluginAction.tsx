@@ -23,7 +23,7 @@ export default function PluginAction({ item }) {
   useEffect(() => {
     const checkPathExists = async () => {
       const parsedUrl = gitUrlParse(item.git_cn);
-      const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/${parsedUrl.name}`;
+      const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/${parsedUrl.name}/__init__.py`;
       const exist: any = await ipcRenderer.invoke('fs.pathExists', { path: targetDirectory });
       setPathExist(exist);
     };
@@ -48,6 +48,7 @@ export default function PluginAction({ item }) {
       setInstallLoading(true);
       const parsedUrl = gitUrlParse(item.git_cn);
       const targetDirectory = `${installPath}/comfyui-portable/ComfyUI/custom_nodes/${parsedUrl.name}`;
+      await ipcRenderer.invoke('fs.remove', { path: targetDirectory });
       await ipcRenderer.invoke('fs.ensureDir', { path: targetDirectory });
       await ipcRenderer.invoke('git.clone', { repoURL: item.git_cn, targetDirectory });
       setPathExist(true);

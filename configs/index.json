@@ -398,7 +398,7 @@
           "modelList": []
         },
         {
-          "name": "ComfyUI_FizzNodes.git",
+          "name": "ComfyUI_FizzNodes",
           "github": "https://github.com/FizzleDorf/ComfyUI_FizzNodes.git",
           "git_cn": "https://e.coding.net/g-xeps0419/doraemon/ComfyUI_FizzNodes.git",
           "git_cn_preview": "https://g-xeps0419.coding.net/public/doraemon/ComfyUI_FizzNodes/git/files",

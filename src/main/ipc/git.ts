@@ -14,34 +14,24 @@ export const gitInit = () => {
 
   ipcMain.handle('git.clone', async (_event, args) => {
     const { repoURL, targetDirectory } = args;
-
-    try {
-      await git.clone({ fs, http, dir: targetDirectory, url: repoURL });
-      console.log('Git clone successful');
-    } catch (error) {
-      console.error('Error during git clone:', error);
-    }
+    await git.clone({ fs, http, dir: targetDirectory, url: repoURL });
   });
 
   ipcMain.handle('git.pull', async (_event, args) => {
     const { targetDirectory } = args;
-    try {
-      await git.pull({
-        fs,
-        http,
-        dir: targetDirectory,
-        singleBranch: true,
-        prune: true,
-        // hack: 没有author信息无法拉取成功
-        author: {
-          name: 'Your Name',
-          email: 'your.email@example.com',
-        },
-      });
-      console.log('Git pull successful');
-    } catch (error) {
-      console.error('Error during git pull:', error);
-    }
+
+    await git.pull({
+      fs,
+      http,
+      dir: targetDirectory,
+      singleBranch: true,
+      prune: true,
+      // hack: 没有author信息无法拉取成功
+      author: {
+        name: 'Your Name',
+        email: 'your.email@example.com',
+      },
+    });
   });
 };
 

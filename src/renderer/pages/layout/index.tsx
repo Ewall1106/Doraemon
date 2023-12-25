@@ -1,32 +1,35 @@
 import { useEffect, useState } from 'react';
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { Dialog, Group, Button, Text } from '@mantine/core';
 import { requestConfigUrl } from '@/shared/config';
 import { compareVersions } from '@/shared/util';
 import { useAppStore } from '@/store';
-import Home from '../home';
-import Detail from '../detail';
-import ComfyUI from '../comfyui';
 
 import styles from './styles.module.scss';
 
 const { ipcRenderer } = window.electron;
 
-export default function App() {
+export default function Layout() {
+  const navigate = useNavigate();
   const [mainVersion, setMainVersion] = useState('');
   const [opened, { open, close }] = useDisclosure(false);
   const setAppInfo = useAppStore((state) => state.setAppInfo);
 
   const init = async () => {
-    const version: any = await ipcRenderer.invoke('app.getVersion');
-    const res: any = await ipcRenderer.invoke('request.get', requestConfigUrl);
-    console.log('init request:', res);
-    setAppInfo(res);
+    try {
+      const version: any = await ipcRenderer.invoke('app.getVersion');
+      const res: any = await ipcRenderer.invoke('request.get', requestConfigUrl);
+      console.log('===init request===', res);
+      setAppInfo(res);
 
-    if (compareVersions(res?.mainVersion, version?.mainVersion)) {
-      open();
-      setMainVersion(res?.mainVersion);
+      if (compareVersions(res?.mainVersion, version?.mainVersion)) {
+        open();
+        setMainVersion(res?.mainVersion);
+      }
+    } catch (error) {
+      console.log(error);
+      navigate('/error');
     }
   };
 
@@ -35,7 +38,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className={styles.app}>
+    <div className={styles.layout}>
       <Dialog opened={opened} withCloseButton onClose={close} size="lg" radius="md">
         <Text size="sm" mb="xs" fw={500}>
           有新的版本v{mainVersion}可以更新啦！
@@ -49,13 +52,9 @@ export default function App() {
         </Group>
       </Dialog>
 
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/comfyui" element={<ComfyUI />} />
-          <Route path="/detail" element={<Detail />} />
-        </Routes>
-      </Router>
+      <div className={styles.outlet}>
+        <Outlet />
+      </div>
     </div>
   );
 }
