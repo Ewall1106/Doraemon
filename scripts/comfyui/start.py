@@ -92,36 +92,47 @@ def run_cmd(cmd, assert_success=False, environment=False, capture_output=False, 
     return result
 
 
+def install_patch():
+    set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
+
+    # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
+    install_conda_patch = 'conda install -y -k ffmpeg'
+    install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
+    if is_windows():
+        install_patch += " onnxruntime-gpu"
+
+    run_cmd(f"{set_pip_mirror} && {install_conda_patch} && {install_patch}",
+            assert_success=True, environment=True)
+
+
 def install_webui():
     # Find the proper Pytorch installation command
     install_git = "conda install -y -k ninja git"
     install_pytorch = "python -m pip install torch torchvision torchaudio"
-    # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
-    install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
-    install_conda_patch = 'conda install -y -k ffmpeg'
-    if is_windows():
-        install_patch += " onnxruntime-gpu"
-    # Set pip mirror to Tsinghua mirror
+
+    # Set pip mirror
     set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
 
-    use_cuda118 = "N"
     if is_windows():
         install_pytorch = f"python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121"
     elif is_macos():
         install_pytorch = f"python -m pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu"
 
     # Install Git and then Pytorch
-    run_cmd(f"{set_pip_mirror} && {install_git} && {install_conda_patch} && {install_pytorch} && {install_patch}",
+    run_cmd(f"{set_pip_mirror} && {install_git} && {install_pytorch}",
             assert_success=True, environment=True)
 
     # Install CUDA libraries (this wasn't necessary for Pytorch before...)
     if is_windows():
-        run_cmd(
-            f"conda install -y -c \"nvidia/label/{'cuda-12.1.1' if use_cuda118 == 'N' else 'cuda-11.8.0'}\" cuda-runtime", assert_success=True, environment=True)
+        run_cmd(f"conda install -y -c \"nvidia/label/cuda-12.1.1\" cuda-runtime",
+                assert_success=True, environment=True)
+
+    # Install patch
+    install_patch()
 
     if not os.path.exists("ComfyUI/"):
-        run_cmd(
-            "git clone https://e.coding.net/g-xeps0419/doraemon/ComfyUI.git", environment=True)
+        run_cmd("git clone https://e.coding.net/g-xeps0419/doraemon/ComfyUI.git",
+                assert_success=True, environment=True)
 
     # Install the requirements
     comfyui_req_path = os.path.join("ComfyUI", "requirements.txt")
@@ -131,18 +142,15 @@ def install_webui():
 def update_requirements():
     if os.path.exists("ComfyUI/"):
         os.chdir("ComfyUI")
+
         run_cmd("git reset --hard && git pull",
                 assert_success=True, environment=True)
 
         set_pip_mirror = "python -m pip config set global.index-url https://mirror.baidu.com/pypi/simple"
-        # fix: 依赖补丁 有些插件代码中引入了依赖包但是requirements.txt中却没有声明
-        install_patch = "python -m pip install opencv-python matplotlib scikit-image onnxruntime imageio-ffmpeg numexpr pandas"
-        install_conda_patch = 'conda install -y -k ffmpeg'
-        if is_windows():
-            install_patch += " onnxruntime-gpu"
-
-        run_cmd(f"{set_pip_mirror} && {install_conda_patch} && {install_patch} && python -m pip install -r requirements.txt --upgrade",
+        run_cmd(f"{set_pip_mirror} && python -m pip install -r requirements.txt --upgrade",
                 assert_success=True, environment=True)
+
+        install_patch()
 
         os.chdir("..")
     else:
